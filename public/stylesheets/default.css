@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica";
+  }
+  /*Nunito, Helvetica Neue, Helvetica, Arial, sans-serif */
+  body{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    font-family: "MyFont";
+  }
+  
+
+  /* Opened Window CSS */
+
+#opend-window{
+    position: absolute;
+    width: 100%;
+    height: 96.5%;
+    top: 3.5%;
+    background: transparent;
+  }
+  
+  #clockbox{
+    font-size: .8em;
+    top: 2px;
+    position:relative;
+  }
+  
+  

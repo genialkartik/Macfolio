@@ -1,0 +1,43 @@
+
+/* LOWER DOCKER */
+
+.docker-container{
+    position: absolute;
+    bottom: -10%;
+    background: none;
+    width: 100%;
+    height: 7.5%;
+    transition: 1s;
+  }
+  #docker-inner-cont{
+    position: absolute;
+    width: 76%;
+    left: 12%;
+    height: 100%;
+    border-radius: 8px 8px 0px 0px;
+    border: 1px solid rgba(205,205,205,0.2);
+    background: rgba(255, 255, 255, .12);
+  
+  }
+  #abc{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(1000px);
+  }
+  .docker-conn ul li{
+    position: relative;
+    float: left;
+    text-decoration: none;
+    list-style: none;
+    top: 0;
+  }
+  .docker-conn ul li img{
+    margin-top: 3px;
+    margin: 9.2px;
+    width: 46px;
+    height: 46px;
+    filter: brightness(1.3);
+    cursor: pointer;
+  }
