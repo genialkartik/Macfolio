@@ -8,9 +8,7 @@ function pageload(){
 $(document).ready(function(){
     // if on Mobile
     $(function(){
-       var bdy = $("body");
-       var bdywdth = parseInt(bdy.css("width"));
-       if(bdywdth<700){
+       if(parseInt($("body").css("width")) < 700){
          window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
        }
      });
@@ -26,11 +24,11 @@ $(document).ready(function(){
    }
    //   -->
    function initiatedemo(){
-     $(".doc-demo").css("font-size", "0.7em");
-     $("#res-hnt").fadeIn(500).css("display", "block")
+     $(".doc-demo").css("font-size", "0.7em"); //docker hint
+     $("#res-hnt").fadeIn(500).css("display", "block") // resume hint
      .delay(2000).promise().done(rminitiatedemo);
    }
-   //   -->
+   //   --> finish demo
    function rminitiatedemo(){
      $("#res-hnt").delay(2000).css("display", "none");
      $(".doc-demo").css("font-size", "0em")
@@ -40,4 +38,11 @@ $(document).ready(function(){
    function opnabtwin() {
      setTimeout(wmanager('01'),0);
    }
-   })
+
+  var opnwinid = $("#opend-window");
+  function wmanager(dcimgvar){
+    var t = $(".opnwin"+dcimgvar);
+    console.log('wmanager')
+    t.toggle().css({ "width":'60%', "height": '70%', "top": '15%', "left": '20%' });
+  }
+})
