@@ -51,6 +51,7 @@
   width: 64px;
   border-radius: 20px;
   text-align: center;
-  font-size: 0.7em;
   transition: .5s;
+  border-top: 0px solid #424242;
+  font-size: 0em;
 }

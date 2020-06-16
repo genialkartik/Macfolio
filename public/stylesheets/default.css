@@ -20,7 +20,7 @@
     height: 96.5%;
     top: 3.5%;
     background: transparent;
-    z-index: 3;
+    z-index: 200;
   }
   
   #clockbox{

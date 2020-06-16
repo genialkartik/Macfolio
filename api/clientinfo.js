@@ -3,12 +3,11 @@ function cData() {}
 var cdata_ar = []
 
 cData.prototype = {
-    cDataContainer: (data)=>{
-        cdata_ar.push(data);
-    },
-
-    getcdata : (callback)=>{
+    cDataContainer: (data, callback)=>{
+        cdata_ar.push(data)
         callback(cdata_ar)
+        
+        
     }
 }
 
