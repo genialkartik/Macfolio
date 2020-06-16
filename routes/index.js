@@ -6,13 +6,33 @@ var cData = require('../api/clientinfo')
 var cdata = new cData()
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.route('/')
+.get(function(req, res, next) {
   si.users()
-    .then(data => {
-      cdata.cDataContainer(data)
+    .then(userdata => {
+      cdata.cDataContainer(userdata[0], (d)=>{
+      })
+    })
+  si.battery()
+    .then(batterydata=>{
+      cdata.cDataContainer(batterydata, (retrieved_data)=>{
+        res.render('index', {
+          title: 'Macfolio',
+          data: retrieved_data
+        })
+      })
     })
     .catch(error => console.log(error))
-  res.render('index', { title: 'Macfolio' });
-});
+})
+
+router.route('/explorer')
+.get(function(req, res){
+  console.log('put request')
+  res.json({
+    status: 200,
+    success: 'successfull'
+  })
+})
 
 module.exports = router;
+
