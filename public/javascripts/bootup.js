@@ -16,13 +16,13 @@ $(document).ready(function(){
      // Chaining
    $(".upper-docker-conn").animate({top: '0'}, "slow");
    $(".docker-container").animate({bottom: '0'}, "fast",)
-   .delay(1000).promise().done(dclwrbrdr);
-   //   -->
+   .delay(2000).promise().done(dclwrbrdr);
+   //   --> 
    function dclwrbrdr(){
-   $(".dc-lower ul li").css({"border-top": "1px solid #424242"})
+   $(".doc-demo").css({"border-top": "1px solid #424242"})
    .promise().done(initiatedemo);
    }
-   //   -->
+   //   --> initiate docker hint and upper docker hint
    function initiatedemo(){
      $(".doc-demo").css("font-size", "0.7em"); //docker hint
      $("#res-hnt").fadeIn(500).css("display", "block") // resume hint
@@ -32,17 +32,17 @@ $(document).ready(function(){
    function rminitiatedemo(){
      $("#res-hnt").delay(2000).css("display", "none");
      $(".doc-demo").css("font-size", "0em")
-     .delay(500).promise().done(opnabtwin);
+    //  .delay(500).promise().done(opnabtwin);
    }
-   // About window OPENED
-   function opnabtwin() {
-     setTimeout(wmanager('01'),0);
-   }
+  //  // About window OPENED
+  //  function opnabtwin() {
+  //    setTimeout(wmanager('01'),0);
+  //  }
 
-  var opnwinid = $("#opend-window");
-  function wmanager(dcimgvar){
-    var t = $(".opnwin"+dcimgvar);
-    console.log('wmanager')
-    t.toggle().css({ "width":'60%', "height": '70%', "top": '15%', "left": '20%' });
-  }
+  // var opnwinid = $("#opend-window");
+  // function wmanager(dcimgvar){
+  //   var t = $(".opnwin"+dcimgvar);
+  //   console.log('wmanager')
+  //   t.toggle().css({ "width":'60%', "height": '70%', "top": '15%', "left": '20%' });
+  // }
 })
