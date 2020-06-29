@@ -18,7 +18,8 @@ router.route('/')
       cdata.cDataContainer(batterydata, (retrieved_data)=>{
         res.render('index', {
           title: 'Macfolio',
-          data: retrieved_data
+          data: retrieved_data,
+          win: ''
         })
       })
     })
@@ -27,10 +28,11 @@ router.route('/')
 
 router.route('/explorer')
 .get(function(req, res){
-  console.log('put request')
+  console.log('explorer put')
   res.json({
     status: 200,
-    success: 'successfull'
+    success: 'successfull',
+    d: 'windows/window/test.ejs'
   })
 })
 

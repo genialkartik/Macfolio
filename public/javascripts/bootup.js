@@ -32,17 +32,5 @@ $(document).ready(function(){
    function rminitiatedemo(){
      $("#res-hnt").delay(2000).css("display", "none");
      $(".doc-demo").css("font-size", "0em")
-    //  .delay(500).promise().done(opnabtwin);
    }
-  //  // About window OPENED
-  //  function opnabtwin() {
-  //    setTimeout(wmanager('01'),0);
-  //  }
-
-  // var opnwinid = $("#opend-window");
-  // function wmanager(dcimgvar){
-  //   var t = $(".opnwin"+dcimgvar);
-  //   console.log('wmanager')
-  //   t.toggle().css({ "width":'60%', "height": '70%', "top": '15%', "left": '20%' });
-  // }
 })

@@ -1,6 +1,4 @@
-document.write('<a href="" target="_blank">
-<br>
-<img src="https://www.freevisitorcounters.com/ctrimg/counter-id-610963.png" border="0" class="counterimg"></a>');
+document.write('<a href="" target="_blank"><br><img src="https://www.freevisitorcounters.com/ctrimg/counter-id-610963.png" border="0" class="counterimg"></a>;')
 
 function trimTrailingSlash(string)
 {
