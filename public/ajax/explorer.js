@@ -1,17 +1,29 @@
+
 // To open teminal window
 $(function(){
     $('.dcimg').on('click', (e)=>{
-        e.preventDefault()
-        var dcimg_id = $(this).prop('id')
-        $.ajax({
-            url: '/explorer',
-            method: 'GET',
-            contentType: 'application/json',
-            success: function(res){
-                console.log('success')
-            }
-        })
-        
+        // var dcimg_id = $(this).prop('class').toString()
+        // console.log(dcimg_id)
+        // $.ajax({
+        //     url: '/explorer',
+        //     method: 'PUT',
+        //     contentType: 'application/json',
+        //     success: function(res){
+        //         // if(dcimg_id == 'abo-doc'){
+        //             console.log('sucess')
+        //             // let abt = '<%- include("window/test.ejs") %>'
+        //             // $('#explorer-data').html(abt)
+        //             var txt3 = document.createElement("div");
+        //             txt3.innerHTML = '<%- include("window/test.ejs") %>'; 
+        //             $('#explorer-data').append(txt3)
+        //         // }
+        //     }
+        // })
+        $.get('/explorer', function(data){
+            console.log(typeof(data.d));
+            $('#explorer-data').load('/media/tyagi/Imp/Dev/Macfolio/Macfolio2.0/api/test.html')
+          });
+          
     })
 })
 

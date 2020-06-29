@@ -1,24 +1,18 @@
 
-.wind-conn{
+.wind-con{
     position: absolute;
-    width: 0%;
-    height: 0%;
-    top: 45%;
-    left: 45%;
+    width: 60%;
+    height: 70%;
+    top: 15%;
+    left: 20%;
     border-radius: 9px;
     transition: .7s;
   }
-  .wind-up-conn{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 1px solid #5d5a53;
-    border-radius: 7px 7px 7px 7px;
-  }
   #wind-up-tab{
     position: absolute;
-    width: 100%;
+    width: 99.8%;
     height: 23px;
+    top: -25px;
     background: #5d5a53;
     border: 1px solid #5d5a53;
     border-radius: 7px 7px 0px 0px;
@@ -156,6 +150,7 @@
     width: 100%;
     height: 100%;
     background: rgb(51, 51, 51);
+    z-index: 300;
   }
   #aboutme-conn{
     position: absolute;

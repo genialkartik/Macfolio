@@ -14,5 +14,5 @@ $(document).ready(function(){
     $( ".wind-con").resizable();
   });
     // hide Window Explorer
-    $(".wind-con").hide();
+    // $(".wind-con").hide();
 })
