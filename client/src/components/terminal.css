@@ -1,0 +1,62 @@
+
+.wind-con{
+    position: absolute;
+    width: 60%;
+    height: 70%;
+    border-radius: 9px;
+    transition: .7s;
+    transform: translate(35%, 20%);
+  }
+  #wind-up-tab{
+    position: absolute;
+    width: 100%;
+    height: 23px;
+    top: -23px;
+    background: #5d5a53;
+    border-radius: 7px 7px 0px 0px;
+  }
+  #wind-up-tab ul li{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    margin: 4px;
+    border-radius: 50%;
+    float: left;
+    color:white;
+    list-style: none;
+  }
+  .wintab{
+    position: relative;
+    top: -7px;
+    left: 2px;
+  }
+
+  #closetab{
+    margin-left: 15px;
+    background: #f04747;
+  }
+  #minimztab{
+    background: #ddbc00;
+  }
+  #tabsize{
+    background: #25ce04;
+  }
+  
+  .opndwintab{
+    position: relative;
+    left: 40%;
+    color: white;
+    font-size: 0.9em;
+  }
+  #opnd-wind-icon-thumbnail img{
+    position: ab;
+    width: 20px;
+    height: 20px;
+  }
+#wind-ter-conn{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgb(51, 51, 51);
+    z-index: 100;
+}
