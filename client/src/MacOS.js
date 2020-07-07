@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import './macos.css';
 import Nowind from './components/Nowind'
 import * as Windows from './components/layouts'
@@ -6,10 +6,27 @@ import * as Windows from './components/layouts'
 class App extends Component {
 
   state = {
-    windowType: '', windowData: ''
+    items : [
+      { id: 0, windowType: '', windowData: '' }
+    ]
   }
 
+  onChangeTest(newName){
+    
+  }  
+
   render() {
+    
+    // const [list, updatelist] = useState(this.state.items)
+    // this.onChangeTest(newName, list, updatelist) {
+    
+    //   updatelist(list.filter(item => item.id !== newName))
+    //   console.log(updatelist)
+    //   console.log(newName)
+    // }
+
+    const { items } = this.state;
+
     return (
       <div>
       {/* ////////   Upper Docker  /////////// */}
@@ -63,33 +80,45 @@ class App extends Component {
         </div>
       </div>
       </div>
-  
+      
+      {/* //// Explorer and Terminal //// */}
       <div className="window-cont" id="window-cont">
         
-        { this.renderSelectedWindow(this.state.windowType, this.state.windowData) }
-        
+          {items.map(({id, windowType, windowData}) => (
+             this.renderSelectedWindow(id, windowType, windowData) 
+          ))}
+
       </div>
   
       <div className="docker-container" id="docker-container-id">
       <div id="docker-inner-cont">
         <div className="docker-conn">
           <ul>
-            <li>
+            <li> 
               <span className="doc-demo">About</span>
               <img  className="dcimg" id="abo-doc" 
-                onClick={ (e) => this.setState({
-                windowType: 'Terminal',
-                windowData: 'Aboutme'
-              }) } 
+                onClick={ () => this.setState(state=>({
+                  items: [...state.items, { 
+                    // id: 1,
+                    id: Math.round(Math.random()*1000),
+                    windowType: 'Terminal',
+                    windowData: 'Aboutme'
+                  }]
+                })
+              )} 
               src={require('./assets/icons/About.png')} alt="" />
             </li>
             <li>
               <span className="doc-demo">Academics   </span>
               <img className="dcimg" id="aca-doc" 
-              onClick={ (e) => this.setState({
-                windowType: 'Terminal',
-                windowData: 'Resume'
-              }) } 
+                onClick={ () => this.setState(state=>({
+                  items: [...state.items, { 
+                    id: Math.round(Math.random()*1000),
+                    windowType: 'Explorer',
+                    windowData: 'Resume'
+                  }]
+                })
+              )}
               src={require('./assets/icons/academics.png')} alt="" />
             </li>
             <li>
@@ -145,13 +174,23 @@ class App extends Component {
     )
   }
 
-  renderSelectedWindow(windowType, windowData) {
-    if(!windowType || !windowData){
-      return <Nowind text='sdklj' />
+  
+
+  renderSelectedWindow(id, type, data){
+    let Window = Windows[type]
+    if(!type || !data){
+      return (
+        <div key={id}>
+          <Nowind text={id}  changeTest={this.onChangeTest.bind(this)} />
+        </div>
+      ) 
     }
     else{
-      const Window = Windows[windowType]
-      return <Window windItem={windowData} />
+    return (
+        <div key={id}>
+          <Window windItem={data} wid={id} changeTest={this.onChangeTest.bind(this)} />
+        </div>
+      ) 
     }
   }
 }
