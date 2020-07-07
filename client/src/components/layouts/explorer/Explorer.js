@@ -1,9 +1,12 @@
 import React from 'react'
-import '../teminal/terminal.css'
+import '../terminal/terminal.css'
+import * as windData from '../../windows/index'
 
 
-export default (props) => (
-    <div>
+const Explorer = (props) => { 
+    const Wdata = windData[props.windItem]
+
+    return (
         <div className="wind-con">
             <div id="wind-up-tab">
                 <ul>
@@ -11,12 +14,15 @@ export default (props) => (
                     <li id="minimztab"><span  className="wintab">-</span></li>
                     <li id="tabsize"><span  className="wintab">&oslash;</span></li>
                     <li id="opnd-wind-icon-thumbnail" className="opndwintab"><img src={require('../../../assets/icons/help.png')} alt="Window" /></li>
-                    <li className="opndwintab">Explorer</li>
+                    <li className="opndwintab">{props.windItem}</li>
                 </ul>
             </div>
             
             <div id="wind-ter-conn">
+                <Wdata />
             </div>
         </div>
-    </div>
-);
+    )
+}
+
+export default Explorer;

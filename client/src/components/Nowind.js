@@ -10,6 +10,21 @@ const nowWind = {
     zIndex: 10000
 }
 
-export default ({text}) => (
-    <h1 style={nowWind}>{text}</h1>
-);
+class Nowind extends React.Component {
+    state = {
+        testing: 'Text Changed'
+    }
+    onChangeTesting() {
+        this.props.changeTest(this.state.testing)
+    }
+    render(){
+        return (
+            <div  style={nowWind}>
+            <h1>{this.props.text}</h1>
+            <button onClick={this.onChangeTesting.bind(this)}>Change Text</button>
+            </div>
+        )
+    }
+}
+
+export default Nowind
