@@ -1,31 +1,62 @@
 import React, { Component} from 'react';
+import { v1 as uuidv1} from 'uuid'
+// import $ from 'jquery'
 import './macos.css';
 import Nowind from './components/Nowind'
+import RightSideBar from './components/layouts/RightSideBar'
 import * as Windows from './components/layouts'
+
+// $(document).ready(function(){
+//   // if on Mobile
+//   $(function(){
+//      if(parseInt($("body").css("width")) < 700){
+//        window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
+//      }
+//    });
+ 
+//    // Chaining
+//  $(".top-menu-bar").delay().animate({top: '0'}, "slow");
+//  $(".docker-container").delay().animate({bottom: '0'}, "fast",)
+//  .delay(1000).promise().done(initiatedemo);
+
+//  //   --> initiate docker hint and upper docker hint
+//  function initiatedemo(){
+//    $(".doc-demo").css({"border-top": "1px solid #424242","font-size": "0.7em"}) //docker hint
+//    .delay(2000).promise().done(rminitiatedemo);
+//  }
+//  //   --> finish demo
+//  function rminitiatedemo(){
+//    $(".doc-demo").css("font-size", "0em")
+//  }
+// })
 
 class App extends Component {
 
-  state = {
-    items : [
-      { id: 0, windowType: '', windowData: '' }
-    ]
+  constructor(){
+    super()
+    this.state = {
+      items : [
+        { id: 0, windowType: '', windowData: '' }
+      ]
+    }
+  }
+  toCloseWindow(index) {
+    this.setState(({items}) => ({items: items.filter(e => e.id !== index)}));
   }
 
-  onChangeTest(newName){
-    
-  }  
+  openWindow(wtype, wdata) {
+    this.setState(state=>({
+      items: [...state.items, { 
+        id: uuidv1(),
+        windowType: wtype,
+        windowData: wdata
+      }]
+    }))
+  }
 
   render() {
-    
-    // const [list, updatelist] = useState(this.state.items)
-    // this.onChangeTest(newName, list, updatelist) {
-    
-    //   updatelist(list.filter(item => item.id !== newName))
-    //   console.log(updatelist)
-    //   console.log(newName)
-    // }
-
     const { items } = this.state;
+    
 
     return (
       <div>
@@ -33,12 +64,6 @@ class App extends Component {
       <div className="top-menu-bar">
       <div className="upper-docker-conn" id="upr-dkr-conn">
         <div className="up-do-container" id="up-do-conn-id">
-          <div className="udl-hint">
-            <ul>
-              <li className="udlht udlhnt01" id="abme-hnt">About Me</li>
-              <li className="udlht udlhnt03" id="res-hnt">Download Resume</li>
-            </ul>
-          </div>
           <div className="up-do-left">
             <ul>
               <li>
@@ -80,6 +105,9 @@ class App extends Component {
         </div>
       </div>
       </div>
+
+      {/* //// Right Side Navigation //// */}
+      <RightSideBar />
       
       {/* //// Explorer and Terminal //// */}
       <div className="window-cont" id="window-cont">
@@ -97,82 +125,100 @@ class App extends Component {
             <li> 
               <span className="doc-demo">About</span>
               <img  className="dcimg" id="abo-doc" 
-                onClick={ () => this.setState(state=>({
-                  items: [...state.items, { 
-                    // id: 1,
-                    id: Math.round(Math.random()*1000),
-                    windowType: 'Terminal',
-                    windowData: 'Aboutme'
-                  }]
-                })
-              )} 
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
               src={require('./assets/icons/About.png')} alt="" />
             </li>
             <li>
               <span className="doc-demo">Academics   </span>
               <img className="dcimg" id="aca-doc" 
-                onClick={ () => this.setState(state=>({
-                  items: [...state.items, { 
-                    id: Math.round(Math.random()*1000),
-                    windowType: 'Explorer',
-                    windowData: 'Resume'
-                  }]
-                })
-              )}
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
               src={require('./assets/icons/academics.png')} alt="" />
             </li>
             <li>
               <span className="doc-demo">Skills      </span>
-              <img className="dcimg" id="ski-doc" src={require('./assets/icons/skills.png')} alt="" /></li>
+              <img className="dcimg" id="ski-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/skills.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Languages   </span>
-              <img className="dcimg" id="lan-doc" src={require('./assets/icons/Languages.png')} alt="" /></li>
+              <img className="dcimg" id="lan-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/Languages.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Softwares   </span>
-              <img className="dcimg" id="sof-doc" src={require('./assets/icons/softwares.png')} alt="" /></li>
+              <img className="dcimg" id="sof-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/softwares.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Experience  </span>
-              <img className="dcimg" id="exp-doc" src={require('./assets/icons/experience.png')} alt="" /></li>
+              <img className="dcimg" id="exp-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/experience.png')} alt="" /></li>
             <li>
               <span className="doc-demo">projects    </span>
-              <img className="dcimg" id="pro-doc" src={require('./assets/icons/projects.png')} alt="" /></li>
+              <img className="dcimg" id="pro-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/projects.png')} alt="" /></li>
             <li>
               <span className="doc-demo">acheivements</span>
-              <img className="dcimg" id="ach-doc" src={require('./assets/icons/acheivements.png')} alt="" /></li>
+              <img className="dcimg" id="ach-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/acheivements.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Courses     </span>
-              <img className="dcimg" id="cou-doc" src={require('./assets/icons/courses.png')} alt="" /></li>
+              <img className="dcimg" id="cou-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/courses.png')} alt="" /></li>
             <li>
               <span className="doc-demo">hobbies     </span>
-              <img className="dcimg" id="hob-doc" src={require('./assets/icons/hobbies.png')} alt="" /></li>
+              <img className="dcimg" id="hob-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/hobbies.png')} alt="" /></li>
             <li>
               <span className="doc-demo">connect     </span>
-              <img className="dcimg" id="con-doc" src={require('./assets/icons/connect.png')} alt="" /></li>
+              <img className="dcimg" id="con-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/connect.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Gallery     </span>
-              <img className="dcimg" id="gal-doc" src={require('./assets/icons/gallery.png')} alt="" /></li>
+              <img className="dcimg" id="gal-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/gallery.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Resume      </span>
-              <img className="dcimg" id="res-doc" src={require('./assets/icons/resume.png')} alt="" /></li>
+              <img className="dcimg" id="res-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/resume.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Help?       </span>
-              <img className="dcimg" id="help-doc" src={require('./assets/icons/help.png')} alt="" /></li>
+              <img className="dcimg" id="help-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/help.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Contact     </span>
-              <img className="dcimg" id="cont-doc" src={require('./assets/icons/contactme.png')} alt="" /></li>
+              <img className="dcimg" id="cont-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/contactme.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Blogs       </span>
-              <img className="dcimg" id="blog-doc" src={require('./assets/icons/blog.png')} alt="" /></li>
+              <img className="dcimg" id="blog-doc"
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              src={require('./assets/icons/blog.png')} alt="" /></li>
             <li>
               <span className="doc-demo">ThinkBin    </span>
-              <img className="dcimg" id="thi-doc"  src={require('./assets/icons/thinkbin.png')} alt="" /></li>
+              <img className="dcimg" id="thi-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              src={require('./assets/icons/thinkbin.png')} alt="" /></li>
           </ul>
         </div>
       </div>
       </div>
       </div>
     )
+
   }
+
+
 
   
 
@@ -181,16 +227,16 @@ class App extends Component {
     if(!type || !data){
       return (
         <div key={id}>
-          <Nowind text={id}  changeTest={this.onChangeTest.bind(this)} />
+          <Nowind />
         </div>
       ) 
     }
     else{
-    return (
-        <div key={id}>
-          <Window windItem={data} wid={id} changeTest={this.onChangeTest.bind(this)} />
-        </div>
-      ) 
+      return (
+          <div key={id}>
+            <Window windItem={data} wid={id} closeWindow={this.toCloseWindow.bind(this)} />
+          </div>
+        ) 
     }
   }
 }
