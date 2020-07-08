@@ -4,8 +4,8 @@
     width: 60%;
     height: 70%;
     border-radius: 9px;
-    transition: .7s;
-    transform: translate(35%, 20%);
+    top: 10%;
+    left: 20%;
   }
   #wind-up-tab{
     position: absolute;
@@ -22,24 +22,20 @@
     margin: 4px;
     border-radius: 50%;
     float: left;
-    color:white;
     list-style: none;
   }
-  .wintab{
-    position: relative;
-    top: -7px;
-    left: 2px;
+  #wind-up-tab ul li:hover{
+    cursor: pointer;
   }
 
   #closetab{
-    margin-left: 15px;
-    background: #f04747;
+    background: #ff0000;
   }
   #minimztab{
-    background: #ddbc00;
+    background: #ffd900;
   }
   #tabsize{
-    background: #25ce04;
+    background: #2bff00;
   }
   
   .opndwintab{
@@ -49,7 +45,7 @@
     font-size: 0.9em;
   }
   #opnd-wind-icon-thumbnail img{
-    position: ab;
+    
     width: 20px;
     height: 20px;
   }
@@ -59,4 +55,18 @@
     height: 100%;
     background: rgb(51, 51, 51);
     z-index: 100;
+    box-shadow: 1px 1px 10px #474747;
+
+}
+
+/*  Nowind CSS */
+.nowind{
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  background-color: green;
+  top: 5%;
+  left: 40%;
+  z-index: 10000;
+  cursor: move;
 }
