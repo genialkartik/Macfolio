@@ -4,7 +4,8 @@
     height: 25px;
     background: #5d5a53;
     color: white;
-}
+    /* top: -25px; */
+ }
 
   .up-do-left{
     position: absolute;
@@ -104,14 +105,14 @@
 
 .docker-container{
     position: absolute;
-    /* bottom: -10%; */
-    bottom: 0%;
     background: none;
     width: 100%;
     transform: translate(50%, 0%);
     height: 6.5%;
     transition: 1s;
     z-index: 5;
+    bottom: 0%;
+    /* bottom: -10%; */
   }
   #docker-inner-cont{
     position: absolute;
