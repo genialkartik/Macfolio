@@ -1,0 +1,73 @@
+
+.wind-con{
+    position: absolute;
+    width: 60%;
+    height: 70%;
+    border-radius: 9px;
+    top: 10%;
+    left: 20%;
+    display: flex;
+  }
+  #wind-up-tab{
+    position: absolute;
+    width: 100%;
+    height: 23px;
+    top: -23px;
+    background: #5d5a53;
+    border-radius: 7px 7px 0px 0px;
+  }
+  #wind-up-tab ul li{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    margin: 4px;
+    border-radius: 50%;
+    float: left;
+    list-style: none;
+  }
+  #wind-up-tab ul li:hover{
+    cursor: pointer;
+  }
+
+  #closetab{
+    background: #ff0000;
+  }
+  #minimztab{
+    background: #ffd900;
+  }
+  #tabsize{
+    background: #2bff00;
+  }
+  
+  .opndwintab{
+    position: relative;
+    left: 40%;
+    color: white;
+    font-size: 0.9em;
+  }
+  #opnd-wind-icon-thumbnail img{
+    
+    width: 20px;
+    height: 20px;
+  }
+#wind-ter-conn{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgb(51, 51, 51);
+    z-index: 100;
+    box-shadow: 1px 1px 10px #474747;
+    overflow: hidden;
+}
+
+/*  Nowind CSS */
+.nowind{
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  background-color: green;
+  top: 5%;
+  left: 40%;
+  z-index: 10000;
+  cursor: move;
+}

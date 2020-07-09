@@ -1,0 +1,79 @@
+
+
+  /* CSS About */
+
+  #aboutme-conn{
+    position: absolute;
+    width: 720px;
+    height: 470px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .aboutimg{
+    position: absolute;
+    left: -10%;
+    width: 40%;
+    height: 100%;
+  }
+  #ab-myimage{
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    border: 8px solid white;
+    border-radius: 50%;
+    background: white;
+    overflow: hidden;
+  }
+  #ab-myimage img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .about-link{
+    position: absolute;
+    top: 80%;
+    left: -10%;
+  }
+  .sociallinks a{
+    margin: 12px;
+    text-decoration: none;
+    list-style: none;
+  }
+  .sociallinks a img {
+      width: 45px;
+      height: 45px;
+  }
+  .name{
+    position: absolute;
+    width: 60%;
+    height: 35%;
+    right: 0;
+    top: -10%;
+    text-align: left;
+    color: white;
+  }
+  .name span{
+    position: relative;
+    font-size: 3.5em;
+    font-weight: normal;
+    top: 20%;
+  }
+  #name-hin{
+    font-size: 1.6em;
+    font-weight: normal;
+    filter: opacity(.7);
+  }
+  .lineaboutme{
+     width: 60%;
+     right: 0;
+     bottom: 10%;
+     height: 65%;
+     position: absolute;
+     text-align: justify;
+     color: #999797;
+     font-size: 1.1em;
+     font-weight: normal;
+     font-family: "myfont";
+  }
+  
