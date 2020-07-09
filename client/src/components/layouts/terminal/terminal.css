@@ -6,6 +6,7 @@
     border-radius: 9px;
     top: 10%;
     left: 20%;
+    display: flex;
   }
   #wind-up-tab{
     position: absolute;
@@ -56,7 +57,7 @@
     background: rgb(51, 51, 51);
     z-index: 100;
     box-shadow: 1px 1px 10px #474747;
-
+    overflow: hidden;
 }
 
 /*  Nowind CSS */
