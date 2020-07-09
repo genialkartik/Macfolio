@@ -56,7 +56,6 @@ class App extends Component {
 
   render() {
     const { items } = this.state;
-    
 
     return (
       <div>
@@ -137,17 +136,12 @@ class App extends Component {
             <li>
               <span className="doc-demo">Skills      </span>
               <img className="dcimg" id="ski-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Skills') } 
               src={require('./assets/icons/skills.png')} alt="" /></li>
-            <li>
-              <span className="doc-demo">Languages   </span>
-              <img className="dcimg" id="lan-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
-              src={require('./assets/icons/Languages.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Softwares   </span>
               <img className="dcimg" id="sof-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
               src={require('./assets/icons/softwares.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Experience  </span>
@@ -159,6 +153,11 @@ class App extends Component {
               <img className="dcimg" id="pro-doc"
               onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
               src={require('./assets/icons/projects.png')} alt="" /></li>
+            <li>
+              <span className="doc-demo">Languages   </span>
+              <img className="dcimg" id="lan-doc"
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Skills') } 
+              src={require('./assets/icons/Languages.png')} alt="" /></li>
             <li>
               <span className="doc-demo">acheivements</span>
               <img className="dcimg" id="ach-doc"
@@ -187,22 +186,22 @@ class App extends Component {
             <li>
               <span className="doc-demo">Resume      </span>
               <img className="dcimg" id="res-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Resume') } 
               src={require('./assets/icons/resume.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Help?       </span>
               <img className="dcimg" id="help-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Help') } 
               src={require('./assets/icons/help.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Contact     </span>
               <img className="dcimg" id="cont-doc"
-              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Contact') } 
               src={require('./assets/icons/contactme.png')} alt="" /></li>
             <li>
               <span className="doc-demo">Blogs       </span>
               <img className="dcimg" id="blog-doc"
-              onClick={ this.openWindow.bind(this, 'Terminal', 'Aboutme') } 
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
               src={require('./assets/icons/blog.png')} alt="" /></li>
             <li>
               <span className="doc-demo">ThinkBin    </span>
@@ -217,11 +216,6 @@ class App extends Component {
     )
 
   }
-
-
-
-  
-
   renderSelectedWindow(id, type, data){
     let Window = Windows[type]
     if(!type || !data){
