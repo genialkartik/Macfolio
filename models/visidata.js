@@ -6,14 +6,6 @@ const VisiData = new Schema({
         type: String,
         required: true
     },
-    battery:{
-        type: Number,
-        required: true
-    },
-    wifi: {
-        type: Boolean,
-        required: true
-    },
     date: {
         type: Date,
         default: Date.now
