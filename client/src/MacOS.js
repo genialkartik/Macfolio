@@ -35,18 +35,21 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      items : [
+      // windowitems is for windows to open
+      windowitems : [
         { id: 0, windowType: '', windowData: '' }
       ]
     }
   }
   toCloseWindow(index) {
-    this.setState(({items}) => ({items: items.filter(e => e.id !== index)}));
+    this.setState(({windowitems}) => ({
+      windowitems: windowitems.filter(e => e.id !== index)
+    }));
   }
 
   openWindow(wtype, wdata) {
     this.setState(state=>({
-      items: [...state.items, { 
+      windowitems: [...state.windowitems, { 
         id: uuidv1(),
         windowType: wtype,
         windowData: wdata
@@ -55,7 +58,7 @@ class App extends Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { windowitems } = this.state;
 
     return (
       <div>
@@ -111,7 +114,7 @@ class App extends Component {
       {/* //// Explorer and Terminal //// */}
       <div className="window-cont" id="window-cont">
         
-          {items.map(({id, windowType, windowData}) => (
+          {windowitems.map(({id, windowType, windowData}) => (
              this.renderSelectedWindow(id, windowType, windowData) 
           ))}
 
@@ -130,7 +133,7 @@ class App extends Component {
             <li>
               <span className="doc-demo">Academics   </span>
               <img className="dcimg" id="aca-doc" 
-              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Academics') } 
               src={require('./assets/icons/academics.png')} alt="" />
             </li>
             <li>
@@ -166,7 +169,7 @@ class App extends Component {
             <li>
               <span className="doc-demo">Courses     </span>
               <img className="dcimg" id="cou-doc"
-              onClick={ this.openWindow.bind(this, 'Explorer', 'Resume') } 
+              onClick={ this.openWindow.bind(this, 'Explorer', 'Courses') } 
               src={require('./assets/icons/courses.png')} alt="" /></li>
             <li>
               <span className="doc-demo">hobbies     </span>
