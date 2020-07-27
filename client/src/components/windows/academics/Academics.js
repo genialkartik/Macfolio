@@ -11,6 +11,7 @@ const styles = theme => ({
   fileContainer: {
     position: 'absolute'
   },
+  newFolderName: '',
   folder: {
     width: '170px',
     height: '200px',
@@ -29,7 +30,6 @@ class Academics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    selectfolderName: 'none',
     isFolderSelected: false,
     folderitems: [
         { folderId: 0, folderName: 'Kartik'},
@@ -50,13 +50,19 @@ class Academics extends Component {
   }
 
   onSelectFolder(id) {
-    $('#'+this.state.selectfolderName+'icon').toggleClass('foldericonselect')
-    $('#'+this.state.selectfolderName+'name').toggleClass('foldernameselect')
     $('#'+id+'icon').toggleClass('foldericonselect')
     $('#'+id+'name').toggleClass('foldernameselect')
-
-    this.setState({ isFolderSelected: true })
-    this.setState({ selectfolderName: id })
+    
+    if(this.state.selectfolderName === id){
+      this.setState({ isFolderSelected: false })
+      this.setState({ selectfolderName: 'none' })
+    }
+    else{
+      $('#'+this.state.selectfolderName+'icon').toggleClass('foldericonselect')
+      $('#'+this.state.selectfolderName+'name').toggleClass('foldernameselect')
+      this.setState({ isFolderSelected: true })
+      this.setState({ selectfolderName: id })
+    }
   }
 
   onClickOutsideHandler(event) {    

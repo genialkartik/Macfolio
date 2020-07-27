@@ -6,6 +6,9 @@ import Nowind from './components/Nowind'
 import RightSideBar from './components/layouts/RightSideBar'
 import * as Windows from './components/layouts'
 
+import { Provider } from 'react-redux'
+import store from './store'
+
 // $(document).ready(function(){
 //   // if on Mobile
 //   $(function(){
@@ -38,13 +41,44 @@ class App extends Component {
       // windowitems is for windows to open
       windowitems : [
         { id: 0, windowType: '', windowData: '' }
+      ],
+      // FIleViewer
+      fileViewer: [
+        { id: 0, fileType: '', filename: ''}
       ]
     }
   }
-  toCloseWindow(index) {
-    this.setState(({windowitems}) => ({
-      windowitems: windowitems.filter(e => e.id !== index)
-    }));
+
+  todataExchange(returnData) {
+    // to close window
+    if(typeof(returnData) === 'string'){
+      this.setState(({windowitems}) => ({
+        windowitems: windowitems.filter(e => e.id !== returnData)
+      }));
+      this.setState(({fileViewer}) => ({
+        fileViewer: fileViewer.filter(e => e.id !== returnData)
+      }));
+    }
+    // to open file 
+    if(returnData.wtype === 'FileViewer'){
+    this.setState(state=>({
+        fileViewer: [...state.fileViewer, { 
+          id: returnData.wid,
+          fileType: returnData.wtype,
+          filename: returnData.wdata
+        }]
+      }))
+    }
+    // to open WindowAlt 
+    else{
+      this.setState(state=>({
+        windowitems: [...state.windowitems, { 
+          id: returnData.wid,
+          windowType: returnData.wtype,
+          windowData: returnData.wdata
+        }]
+      }))
+    }
   }
 
   openWindow(wtype, wdata) {
@@ -58,9 +92,10 @@ class App extends Component {
   }
 
   render() {
-    const { windowitems } = this.state;
+    const { windowitems, fileViewer } = this.state;
 
     return (
+      <Provider store={store}>
       <div>
       {/* ////////   Upper Docker  /////////// */}
       <div className="top-menu-bar">
@@ -111,6 +146,15 @@ class App extends Component {
       {/* //// Right Side Navigation //// */}
       <RightSideBar />
       
+      {/* To open FileViewer */}
+      <div id="fileviewerid">
+        {
+          fileViewer.map(({id, fileType, filename}) => (
+            this.renderFile(id, fileType, filename)
+          ))
+        }
+      </div>
+
       {/* //// Explorer and Terminal //// */}
       <div className="window-cont" id="window-cont">
         
@@ -216,22 +260,33 @@ class App extends Component {
       </div>
       </div>
       </div>
+      </Provider>
     )
 
   }
-  renderSelectedWindow(id, type, data){
-    let Window = Windows[type]
-    if(!type || !data){
-      return (
-        <div key={id}>
-          <Nowind />
-        </div>
-      ) 
+  // render file viewer
+  renderFile(id, ftype, fname) {
+    let Window = Windows[ftype]
+    if(!ftype || !fname){
+      return (<div key={id}><Nowind /></div>) 
     }
     else{
       return (
           <div key={id}>
-            <Window windItem={data} wid={id} closeWindow={this.toCloseWindow.bind(this)} />
+            <Window filename={fname} wid={id} dataExchange={this.todataExchange.bind(this)} />
+          </div>
+        ) 
+    }
+  }
+  renderSelectedWindow(id, wtype, wdata){
+    let Window = Windows[wtype]
+    if(!wtype || !wdata){
+      return (<div key={id}> <Nowind /></div>) 
+    }
+    else{
+      return (
+          <div key={id}>
+            <Window windItem={wdata} wid={id} dataExchange={this.todataExchange.bind(this)} />
           </div>
         ) 
     }
@@ -239,4 +294,3 @@ class App extends Component {
 }
 
 export default App;
-

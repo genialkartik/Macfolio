@@ -1,0 +1,6 @@
+export const GET_ITEMS = 'GET_ITEMS'
+export const GET_FILES = 'GET_FILES'
+export const ADD_ITEM = 'ADD_ITEM'
+export const DELETE_ITEM = 'DELETE_ITEMS'
+export const ITEMS_LOADING = 'ITEMS_LOADING'
+export const UPLOAD_ITEM = 'UPLOAD_ITEM'
