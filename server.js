@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()
 
 const visiapi = require('./routes/api/visiapi')
+const explorers = require('./routes/explorer/explorer')
 
   
 app.use(bodyParser.json())
@@ -21,6 +22,10 @@ mongoose.connect(db, {
 
 // Use Routes
 app.use('/api/visidata', visiapi)
+app.use('/explorer', explorers)
 
 const port = process.env.Port || 2050
 app.listen(port, ()=> console.log('Listening on Port: '+port))
+
+
+
