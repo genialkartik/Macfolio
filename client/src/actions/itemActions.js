@@ -1,31 +1,27 @@
 import axios from 'axios'
-import {GET_ITEMS, GET_FILES, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, UPLOAD_ITEM} from './types'
+import {
+    GET_ITEMS,
+    ADD_ITEM,
+    DELETE_ITEM,
+    DELETE_FILE,
+    ITEMS_LOADING,
+    UPLOAD_ITEM
+} from './types'
 
-export const getFolders = item => dispatch => {
+
+export const getItems = item => dispatch => {
     dispatch(setItemsLoading())
-    if(!item.wfolder){
-        axios.get(`/explorer/${item.wdata}`)
-        .then(res => 
+    axios.get(`/explorer/folder`, {params: { wpath: item.wpath }}) // eg: '/explorer/Academics'
+        .then(res =>
             dispatch({
                 type: GET_ITEMS,
                 payload: res.data
             })
         )
-    }
-    else{
-        axios.get(`/explorer/${item.wdata}/${item.wfolder}`)
-        .then(res => 
-            dispatch({
-                type: GET_FILES,
-                payload: res.data
-            })
-        )
-    }
 };
 export const addItem = item => dispatch => {
-    console.log(item)
-    axios.post(`/explorer/${item.fpath}`, item)
-        .then( res => 
+    axios.post(`/explorer/folder`, item)
+        .then(res =>
             dispatch({
                 type: ADD_ITEM,
                 payload: res.data
@@ -33,9 +29,8 @@ export const addItem = item => dispatch => {
         )
 };
 export const uploadItem = item => dispatch => {
-    console.log(item)
-    axios.post(`/explorer/${item.fpath}/${item.fname}`, item)
-        .then( res => 
+    axios.post(`/explorer/file`, item.formdata)
+        .then(res =>
             dispatch({
                 type: UPLOAD_ITEM,
                 payload: res.data
@@ -43,10 +38,20 @@ export const uploadItem = item => dispatch => {
         )
 };
 export const deleteItem = id => dispatch => {
-    axios.delete(`/explorer/${id}`)
+    console.log(id)
+    axios.delete(`explorer/folder`, { params: {delId: id }})
         .then(res =>
             dispatch({
                 type: DELETE_ITEM,
+                payload: id
+            })
+        )
+};
+export const deleteFile = id => dispatch => {
+    axios.delete(`/explorer/file`, { params: {delId: id }})
+        .then(res =>
+            dispatch({
+                type: DELETE_FILE,
                 payload: id
             })
         )
@@ -55,4 +60,4 @@ export const setItemsLoading = () => {
     return {
         type: ITEMS_LOADING
     };
-};
+}; 

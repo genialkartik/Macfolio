@@ -61,7 +61,9 @@ class Terminal extends React.Component {
             </div>
             
             <div id="wind-ter-conn">
-                <Wdata />
+                <div className="wind-ter-container">
+                    <Wdata />
+                </div>
             </div>
         </div>
         </Draggable>

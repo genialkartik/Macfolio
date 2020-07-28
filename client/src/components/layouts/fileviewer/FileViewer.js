@@ -47,7 +47,8 @@ export default class FileViewer extends Component {
     }
       
     render() {
-        var windConId = "wc"+this.props.wid  
+        var windConId = "wc"+this.props.wid
+        let fileUrl =  './documents/'+this.props.filename.replace(/\s/g, '')
         return (
             <Draggable>
             <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
@@ -64,7 +65,7 @@ export default class FileViewer extends Component {
                 
                 <div id="wind-ter-conn">
                     <div className="pdfviewer-container">
-                        <PDFReader url={"./aa.pdf"} showAllPage="true" />
+                        <PDFReader url={fileUrl} showAllPage="true" />
                     </div>
                 </div>
             </div>

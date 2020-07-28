@@ -203,7 +203,7 @@ class App extends Component {
             <li>
               <span className="doc-demo">Languages   </span>
               <img className="dcimg" id="lan-doc"
-              onClick={ this.openWindow.bind(this, 'Explorer', 'Skills') } 
+              onClick={ this.openWindow.bind(this, 'Terminal', 'Languages') } 
               src={require('./assets/icons/Languages.png')} alt="" /></li>
             <li>
               <span className="doc-demo">acheivements</span>

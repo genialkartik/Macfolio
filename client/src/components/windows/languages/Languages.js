@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import './skills.css'
+import './languages.css'
 
 export default class Skills extends Component {
     render() {

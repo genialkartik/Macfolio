@@ -89,4 +89,39 @@
     background: rgba(39, 39, 39);
     z-index: 8;
   }
+
+  .wdt-right::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.wdt-right {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
   
+
+  .fileContainer {
+    position:absolute;
+  }
+  .fileContainer ul li {
+    width:170px;
+    height:200px;
+    word-wrap: break-word;
+    margin-right:10px;
+    text-align:center;
+    background-color: red;
+    float:left;
+  }
+  .foldername {
+    position:relative;
+    color:white;
+    border-radius: 3px;
+    padding: 0px 5px;
+  }
+  .foldericonselect {
+    filter:brightness(70%);
+  }
+  .foldernameselect{
+    background-color: dodgerblue;
+  }
