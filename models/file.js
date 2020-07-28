@@ -6,7 +6,7 @@ const FileSchema = new Schema({
         type: String,
         required: true
     },
-    fileType: {
+    itemType: {
         type: String,
         required: true
     },

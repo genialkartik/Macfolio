@@ -8,6 +8,10 @@ const FolderSchema = new Schema({
         type: String,
         required: true
     },
+    itemType: {
+        type: String,
+        required: true
+    },
     folderSize: {
         type: Number,
         required: false
