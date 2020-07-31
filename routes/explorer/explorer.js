@@ -72,7 +72,6 @@ router.route('/folder')
             .then(item => res.json(item))
     })
     .delete((req, res) => {
-        console.log(req.query.delId)
         Folders.findById(req.query.delId)
             .then(folder => folder.remove().then(() => res.json({ success: true })))
             .catch(err => res.status(404).json({ success: false }))
