@@ -15,6 +15,7 @@
 }
 .wul-conn ul li {
   float: left;
+  list-style: none;
   width: 33.33%;
 }
 .wul-conn ul li img{
@@ -63,8 +64,9 @@
   #pl-id ul li{
     cursor: pointer;
   }
-  ul li{
+  .fileContainer ul li{
      list-style: none;
+     float: left;
   }
   .llc{
     position: relative;
@@ -110,7 +112,6 @@
     word-wrap: break-word;
     margin-right:10px;
     text-align:center;
-    background-color: red;
     float:left;
   }
   .foldername {

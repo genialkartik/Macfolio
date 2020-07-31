@@ -6,7 +6,8 @@ import App from './MacOS';
 
 
 ReactDOM.render(
-    <App />,
+  <App />
+  ,
   document.getElementById('root')
 );
 

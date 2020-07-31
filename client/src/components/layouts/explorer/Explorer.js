@@ -1,41 +1,34 @@
 import React, { Component } from 'react'
 import { v1 as uuidv1 } from 'uuid'
-// REDux
-import compose from 'recompose/compose'
-import { connect } from 'react-redux'
-import {
-  getItems,
-  addItem,
-  deleteItem,
-  deleteFile,
-  uploadItem
-} from '../../../actions/itemActions'
-import PropTypes from 'prop-types'
+import axios from 'axios'
 
 import '../terminal/terminal.css'
 import './explorer.css'
 import Draggable from 'react-draggable'
 import $ from 'jquery'
+import compose from 'recompose/compose'
+import PropTypes from 'prop-types'
 
 import FolderIcon from '@material-ui/icons/Folder';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
-import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Label from '@material-ui/icons/Label';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import InfoIcon from '@material-ui/icons/Info';
-import ForumIcon from '@material-ui/icons/Forum';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 // onrightClick 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Modal from '@material-ui/core/Modal'
+
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -132,9 +125,6 @@ const styles = theme => ({
     flexGrow: 1,
     maxWidth: 400,
   },
-  fileContainer: {
-    position: 'absolute'
-  },
   newFolderName: '',
   folder: {
     width: '170px',
@@ -174,10 +164,9 @@ class Explorer extends Component {
       file: null,
       filenametoUpload: null,
       isFolderSelected: false,
-      currentPath: null,
-      previousPath: null,
-      uploadfileOpen: false
-
+      currentPath: [],
+      uploadfileOpen: false,
+      activeWindowId: null
     }
     this.toggleContainer = React.createRef();
     this.uploadedfile = React.createRef();
@@ -186,10 +175,12 @@ class Explorer extends Component {
 
   componentDidMount() {
     window.addEventListener('click', this.onClickOutsideHandler);
-    this.props.getItems({ wpath: this.props.windItem }); // windItem is 'Resume, About,Skills, Academics etc'
     this.setState({
       rightClickedOn: null,
-      currentPath: this.props.windItem
+      activeWindowId: this.props.wid
+    })
+    this.setState({
+      currentPath: [...this.state.currentPath, this.props.windItem]
     });
   }
   componentWillUnmount() {
@@ -203,8 +194,7 @@ class Explorer extends Component {
       this.setState({
         isFolderSelected: false,
         selectfolderName: 'none',
-        rightClickedOn: null,
-        currentPath: null
+        rightClickedOn: null
       })
     }
   }
@@ -230,35 +220,39 @@ class Explorer extends Component {
     }
   }
   // onDoubleClick on folder or file
-  openFolder(folderName) {
-    console.log('open folder' + this.state.currentPath)
+  openFolder(wid, folderName) {
     this.setState({
-      previousPath: this.state.currentPath,
-      currentPath: this.state.currentPath + '/' + folderName
+      currentPath: [...this.state.currentPath, folderName]
+    });
+
+    var currPath = this.state.currentPath.toString().replace(/,/g, '/') + '/' + folderName;
+    this.props.dataExchange({
+      waction: 'openFolder',
+      wid: wid,
+      currPath: currPath
     })
-    var t = this.state.currentPath + '/' + folderName
-    this.props.getItems({
-      wpath: t,
-    })
-    console.log('open folder' + this.state.currentPath)
   }
   // Data send back to MacOS (parent)
-  closeW(props, clsid) {
-    props.dataExchange(clsid)
+  closeW(clsid) {
+    this.props.dataExchange({
+      waction: 'closeWindow',
+      wid: clsid
+    })
   }
 
-  openWindowAlt(props, wtype, wdata) {
+  openWindowAlt(wtype, wdata) {
     const winData = {
       wid: uuidv1(),
-      wtype: wtype,
+      waction: wtype,
       wdata: wdata
     }
-    props.dataExchange(winData)
+    this.props.dataExchange(winData)
     this.activeWindow(winData.wid)
   }
   activeWindow(wid) {
     this.setState({
-      rightClickedOn: null
+      rightClickedOn: null,
+      activeWindowId: wid
     })
     $('.wind-con').css({
       zIndex: "100"
@@ -266,7 +260,6 @@ class Explorer extends Component {
     $("#wc" + wid).css({
       zIndex: "1000"
     })
-    console.log('did mount: ' + this.state.currentPath)
   }
   resizeWindow(wid) {
     var temp = "#wc" + wid
@@ -308,68 +301,64 @@ class Explorer extends Component {
       this.setState({
         selectType: selecttype,
         rightClickedOn: RightClickedOn //set to id of the folder
-      });
+      })
     }
-  }; 
+  }
   handleClose() {
     this.setState({
       mouseX: null,
       mouseY: null,
-    });
-  };
-  windowBack() {
-    this.props.getItems({
-      wpath: this.state.previousPath
-    });
-    this.setState({
-      previousPath: null,
-      currentPath: this.props.windItem,
     })
   }
-  onDelete = (selecttype, id) => {
-    if (selecttype === 'folder') {
-      this.props.deleteItem(id)
-    } else {
-      this.props.deleteFile(id)
+  windowBack(wid) {
+    if (this.state.currentPath.length===1) {
+      return 1  
     }
-    this.setState({
-      mouseX: null,
-      mouseY: null,
-      rightClickedOn: null
-    });
+    else {
+      let newPath = this.state.currentPath.slice(0,-1)
+      this.setState({
+        currentPath: newPath
+      })
+      var currPath = newPath.toString().replace(/,/g, '/');
+      this.props.dataExchange({
+        waction: 'openFolder',
+        wid: wid,
+        currPath: currPath
+      })
+    }
   }
-
   fileUploadonChange = e => {
-    console.log(this.state.currentPath)
     this.setState({
       file: e.target.files[0],
       filenametoUpload: e.target.files[0].name
     })
   }
-  uploadFile = async e => {
+  uploadFile = (wid, e) => {
     e.preventDefault();
     let formData = new FormData();
     formData.append('filetoupload', this.state.file)
-    formData.append('itempath', this.state.currentPath)
-    this.props.uploadItem({ //sent to itemAction
+    formData.append('itempath', this.state.currentPath.toString().replace(/,/g, '/'))
+    this.props.dataExchange({ //sent to itemAction
+      wid: wid,
+      waction: 'uploadItem',
       formdata: formData //sendt to itemAction and then explorer.js in
     })
     this.setState({ uploadfileOpen: false, rightClickedOn: null })
   }
 
   render() {
-    const { classes } = this.props  //passing data back to MacOS
-    const { folderitems, fileitems } = this.props.item
+    const { classes } = this.props
     var windConId = "wc" + this.props.wid;
-
+    const folderitems = this.props.windowFolders
+    const fileitems = this.props.windowFiles
     return (
       <Draggable>
         <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
           <div id="wind-up-tab">
             <ul>
-              <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props, this.props.wid)}>
+              <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
               </li>
-              <li id="minimztab" className="wintab" onClick={this.closeW.bind(this, this.props, this.props.wid)}></li>
+              <li id="minimztab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}></li>
               <li id="tabsize" className="wintab" onClick={this.resizeWindow.bind(this, this.props.wid)}></li>
               <li id="opnd-wind-icon-thumbnail" className="opndwintab"><img src={require('../../../assets/icons/help.png')} alt="Window" /></li>
               <li className="opndwintab">{this.props.windItem}</li>
@@ -381,7 +370,7 @@ class Explorer extends Component {
             <div className="wind-up-low">
               <div id="wul-conn" className="wul-conn">
                 <ul>
-                  <li className="wbackleft" onClick={this.windowBack.bind(this)} ><img src={require('../../../assets/graphics/wb-left.png')} alt="" /></li>
+                  <li className="wbackleft" onClick={this.windowBack.bind(this, this.props.wid)} ><img src={require('../../../assets/graphics/wb-left.png')} alt="" /></li>
                   <li className="wbackmid"  ><img src={require('../../../assets/graphics/wb-mid.png')} alt="" /></li>
                   <li className="wbackright"><img src={require('../../../assets/graphics/wb-right.png')} alt="" /></li>
                 </ul>
@@ -398,45 +387,45 @@ class Explorer extends Component {
               >
 
                 <StyledTreeItem nodeId="1" labelText="About Me"
-                  onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Aboutme')} labelIcon={MailIcon} />
+                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Aboutme')} labelIcon={PersonPinIcon} />
                 <StyledTreeItem nodeId="2" labelText="Resume"
-                  onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Resume')} labelIcon={DeleteIcon} />
-                <StyledTreeItem nodeId="3" labelText="Categories" labelIcon={Label}>
+                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Resume')} labelIcon={InsertDriveFileIcon} />
+                <StyledTreeItem nodeId="3" labelText="Social" labelIcon={SupervisorAccountIcon}>
                   <StyledTreeItem
                     nodeId="5"
-                    labelText="Social"
-                    labelIcon={SupervisorAccountIcon}
+                    labelText="Twitter"
+                    labelIcon={TwitterIcon}
                     labelInfo="90"
                     color="#1a73e8"
                     bgColor="#e8f0fe"
                   />
                   <StyledTreeItem
                     nodeId="6"
-                    labelText="Updates"
-                    labelIcon={InfoIcon}
+                    labelText="LinkedIn"
+                    labelIcon={LinkedInIcon}
                     labelInfo="2,294"
                     color="#e3742f"
                     bgColor="#fcefe3"
                   />
                   <StyledTreeItem
                     nodeId="7"
-                    labelText="Forums"
-                    labelIcon={ForumIcon}
+                    labelText="Stack Overflow"
+                    labelIcon={HorizontalSplitIcon}
                     labelInfo="3,566"
                     color="#a250f5"
                     bgColor="#f3e8fd"
                   />
                   <StyledTreeItem
                     nodeId="8"
-                    labelText="Promotions"
-                    labelIcon={LocalOfferIcon}
+                    labelText="Instagram"
+                    labelIcon={InstagramIcon}
                     labelInfo="733"
                     color="#3c8039"
                     bgColor="#e6f4ea"
                   />
                 </StyledTreeItem>
                 <StyledTreeItem nodeId="4" labelText="Help"
-                  onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Help')} labelIcon={Label} />
+                  onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
               </TreeView>
             </div>
             <div className="wdt-right" onContextMenu={this.onrightClick.bind(this, null, null)} style={{ cursor: 'context-menu' }}>
@@ -445,7 +434,7 @@ class Explorer extends Component {
 
 
               <div className={classes.root} key='folderkey'>
-                <div className={classes.fileContainer} ref={this.toggleContainer}>
+                <div className='fileContainer' ref={this.toggleContainer}>
                   <ul>
                     {
                       folderitems.map(({ _id, folderName }) => (
@@ -453,7 +442,7 @@ class Explorer extends Component {
                           className={classes.folder}
                           onClick={this.onSelectFolder.bind(this, _id)}
                           onContextMenu={this.onrightClick.bind(this, 'folder', _id)}
-                          onDoubleClick={this.openFolder.bind(this, folderName)}>
+                          onDoubleClick={this.openFolder.bind(this, this.props.wid, folderName)}>
                           <div id={_id + "icon"}>
                             <FolderIcon className={classes.foldericon} /></div>
                           <label id={_id + "name"} className={"foldername"}>{folderName}</label></li>
@@ -466,11 +455,12 @@ class Explorer extends Component {
                           className={classes.folder}
                           onClick={this.onSelectFolder.bind(this, _id)}
                           onContextMenu={this.onrightClick.bind(this, 'file', _id)}
-                          onDoubleClick={this.openWindowAlt.bind(this, this.props, 'FileViewer', fileName)}>
+                          onDoubleClick={this.openWindowAlt.bind(this, 'FileViewer', fileName)}>
                           <div id={_id + "icon"}>
                             <InsertDriveFileIcon className={classes.foldericon} /></div>
                           <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
-                      ))}
+                      ))
+                    }
                   </ul>
                 </div>
               </div>
@@ -497,12 +487,20 @@ class Explorer extends Component {
                         mouseX: null,
                         mouseY: null,
                       }))
-                      this.props.addItem({
-                        fname: newfoldername, // create new folder
+                      axios.post('/explorer/folder', {
+                        fname: newfoldername,
                         ftype: 'folder',
                         fsize: 0,
-                        fpath: this.state.currentPath
+                        fpath: this.state.currentPath.toString().replace(/,/g, '/')
                       })
+                        .then(res => {
+                          this.props.dataExchange({
+                            waction: 'createFolder',
+                            wid: this.props.wid,
+                            folderitems: res.data
+                          })
+                        }
+                        )
                     }
                   }
                   }>Create folder</MenuItem>
@@ -512,17 +510,29 @@ class Explorer extends Component {
                   open={this.state.uploadfileOpen}
                   onClose={() => { this.setState({ uploadfileOpen: false }) }} >
                   <div className={classes.uploadfile}>
-                    <form onSubmit={this.uploadFile.bind(this)} encType="multipart/form-data">
+                    <form method="POST" onSubmit={this.uploadFile.bind(this, this.props.wid)} encType="multipart/form-data">
                       <label>Upload File</label><br /><br />
                       <input type="file" id="customFile" onChange={this.fileUploadonChange.bind(this)} /> <br /><br />
                       <button type="submit" value="Upload">Upload</button>
                     </form>
                   </div>
                 </Modal>
-                <MenuItem onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Help')} >Terminal (help)</MenuItem>
-                <MenuItem onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Aboutme')}>About Me</MenuItem>
+                <MenuItem onClick={this.openWindowAlt.bind(this, 'Terminal', 'Help')} >Terminal (help)</MenuItem>
+                <MenuItem onClick={this.openWindowAlt.bind(this, 'Terminal', 'Aboutme')}>About Me</MenuItem>
                 {(this.state.rightClickedOn != null) &&
-                  <MenuItem onClick={this.onDelete.bind(this, this.state.selectType, this.state.rightClickedOn)}>Delete</MenuItem>
+                  <MenuItem onClick={() => {
+                    this.props.dataExchange({
+                      waction: 'deleteF',
+                      wid: this.props.wid,
+                      fType: this.state.selectType,
+                      fid: this.state.rightClickedOn
+                    })
+                    this.setState({
+                      mouseX: null,
+                      mouseY: null,
+                      rightClickedOn: null
+                    });
+                  }}>Delete</MenuItem>
                 }
               </Menu>
             </div>
@@ -533,15 +543,6 @@ class Explorer extends Component {
     )
   }
 }
-
-Explorer.propTypes = {
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
-}
-const mapStateToProps = (state) => ({
-  item: state.item
-})
 export default compose(
-  connect(mapStateToProps, { getItems, addItem, deleteItem, deleteFile, uploadItem }),
   withStyles(styles, { withTheme: true })
 )(Explorer)

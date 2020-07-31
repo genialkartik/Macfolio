@@ -9,7 +9,10 @@ import $ from 'jquery'
 class Terminal extends React.Component { 
     
     closeW(clsid){
-        this.props.dataExchange(clsid)
+        this.props.dataExchange({
+            waction: 'closeWindow',
+            wid: clsid
+          })
     }
     resizeWindow(wid){
         var temp = "#wc"+wid
