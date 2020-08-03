@@ -4,6 +4,7 @@
     float: left;
     margin: 80px;    
     scale: 4;
+    list-style: none;
 }
 #test1 ul li img{
     position: relative;

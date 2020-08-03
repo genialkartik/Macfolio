@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { v1 as uuidv1 } from 'uuid'
 import axios from 'axios'
+import * as windData from '../../windows/index'
 
 import '../terminal/terminal.css'
 import './explorer.css'
@@ -21,9 +21,10 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import CreateIcon from '@material-ui/icons/Create';
 // onrightClick 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -80,7 +81,6 @@ const useTreeItemStyles = makeStyles((theme) => ({
 function StyledTreeItem(props) {
   const classes = useTreeItemStyles();
   const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, ...other } = props;
-
   return (
     <TreeItem
       label={
@@ -242,12 +242,20 @@ class Explorer extends Component {
 
   openWindowAlt(wtype, wdata) {
     const winData = {
-      wid: uuidv1(),
       waction: wtype,
       wdata: wdata
     }
     this.props.dataExchange(winData)
     this.activeWindow(winData.wid)
+  }
+  changewSubTypeData(oDataId, wsdata) {
+    const winData = {
+      waction: 'changewsData',
+      id: oDataId,
+      wsubtype: 'other',
+      wsdata: wsdata
+    }
+    this.props.dataExchange(winData)
   }
   activeWindow(wid) {
     this.setState({
@@ -311,11 +319,11 @@ class Explorer extends Component {
     })
   }
   windowBack(wid) {
-    if (this.state.currentPath.length===1) {
-      return 1  
+    if (this.state.currentPath.length === 1) {
+      return 1
     }
     else {
-      let newPath = this.state.currentPath.slice(0,-1)
+      let newPath = this.state.currentPath.slice(0, -1)
       this.setState({
         currentPath: newPath
       })
@@ -351,6 +359,14 @@ class Explorer extends Component {
     var windConId = "wc" + this.props.wid;
     const folderitems = this.props.windowFolders
     const fileitems = this.props.windowFiles
+    let Wdata;
+    if (this.props.windItem === 'Connect' ||
+      this.props.windItem === 'Thinkbin' ||
+      this.props.windItem === 'Miscellaneous') {
+      Wdata = windData[this.props.windItem]
+    }
+
+
     return (
       <Draggable>
         <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
@@ -390,81 +406,94 @@ class Explorer extends Component {
                   onClick={this.openWindowAlt.bind(this, 'Terminal', 'Aboutme')} labelIcon={PersonPinIcon} />
                 <StyledTreeItem nodeId="2" labelText="Resume"
                   onClick={this.openWindowAlt.bind(this, 'Terminal', 'Resume')} labelIcon={InsertDriveFileIcon} />
-                <StyledTreeItem nodeId="3" labelText="Social" labelIcon={SupervisorAccountIcon}>
+                <StyledTreeItem nodeId="3" labelText="Social"
+                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'connect')}
+                  labelIcon={SupervisorAccountIcon}>
                   <StyledTreeItem
-                    nodeId="5"
+                    nodeId="6"
                     labelText="Twitter"
                     labelIcon={TwitterIcon}
                     labelInfo="90"
                     color="#1a73e8"
                     bgColor="#e8f0fe"
-                  />
-                  <StyledTreeItem
-                    nodeId="6"
-                    labelText="LinkedIn"
-                    labelIcon={LinkedInIcon}
-                    labelInfo="2,294"
-                    color="#e3742f"
-                    bgColor="#fcefe3"
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'twitter')}
                   />
                   <StyledTreeItem
                     nodeId="7"
+                    labelText="Dev.to"
+                    labelIcon={CreateIcon}
+                    labelInfo="2,294"
+                    color="#e3742f"
+                    bgColor="#fcefe3"
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'devtoblogs')}
+                  />
+                  <StyledTreeItem
+                    nodeId="8"
                     labelText="Stack Overflow"
                     labelIcon={HorizontalSplitIcon}
                     labelInfo="3,566"
                     color="#a250f5"
                     bgColor="#f3e8fd"
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'stackoverflow')}
                   />
                   <StyledTreeItem
-                    nodeId="8"
+                    nodeId="9"
                     labelText="Instagram"
                     labelIcon={InstagramIcon}
                     labelInfo="733"
                     color="#3c8039"
                     bgColor="#e6f4ea"
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'instagram')}
                   />
                 </StyledTreeItem>
-                <StyledTreeItem nodeId="4" labelText="Help"
+                <StyledTreeItem nodeId="4" labelText="GitHub"
+                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'githubprofile')} labelIcon={GitHubIcon} />
+                <StyledTreeItem nodeId="5" labelText="Help"
                   onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
               </TreeView>
             </div>
             <div className="wdt-right" onContextMenu={this.onrightClick.bind(this, null, null)} style={{ cursor: 'context-menu' }}>
               <br />
               <br />
-
-
-              <div className={classes.root} key='folderkey'>
-                <div className='fileContainer' ref={this.toggleContainer}>
-                  <ul>
-                    {
-                      folderitems.map(({ _id, folderName }) => (
-                        <li key={_id}
-                          className={classes.folder}
-                          onClick={this.onSelectFolder.bind(this, _id)}
-                          onContextMenu={this.onrightClick.bind(this, 'folder', _id)}
-                          onDoubleClick={this.openFolder.bind(this, this.props.wid, folderName)}>
-                          <div id={_id + "icon"}>
-                            <FolderIcon className={classes.foldericon} /></div>
-                          <label id={_id + "name"} className={"foldername"}>{folderName}</label></li>
-                      ))
-                    }
-
-                    {
-                      fileitems.map(({ _id, fileName }) => (
-                        <li key={_id}
-                          className={classes.folder}
-                          onClick={this.onSelectFolder.bind(this, _id)}
-                          onContextMenu={this.onrightClick.bind(this, 'file', _id)}
-                          onDoubleClick={this.openWindowAlt.bind(this, 'FileViewer', fileName)}>
-                          <div id={_id + "icon"}>
-                            <InsertDriveFileIcon className={classes.foldericon} /></div>
-                          <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
-                      ))
-                    }
-                  </ul>
+              {(this.props.otherData.wSubType === 'other') &&
+                <div className="subtype-container">
+                  <Wdata wsData={this.props.otherData.wsData} />
                 </div>
-              </div>
+              }
 
+              {(folderitems || fileitems) &&
+                <div className={classes.root} key='folderkey'>
+                  <div className='fileContainer' ref={this.toggleContainer}>
+                    <ul>
+                      {
+                        folderitems.map(({ _id, folderName }) => (
+                          <li key={_id}
+                            className={classes.folder}
+                            onClick={this.onSelectFolder.bind(this, _id)}
+                            onContextMenu={this.onrightClick.bind(this, 'folder', _id)}
+                            onDoubleClick={this.openFolder.bind(this, this.props.wid, folderName)}>
+                            <div id={_id + "icon"}>
+                              <FolderIcon className={classes.foldericon} /></div>
+                            <label id={_id + "name"} className={"foldername"}>{folderName}</label></li>
+                        ))
+                      }
+
+                      {
+                        fileitems.map(({ _id, fileName }) => (
+                          <li key={_id}
+                            className={classes.folder}
+                            onClick={this.onSelectFolder.bind(this, _id)}
+                            onContextMenu={this.onrightClick.bind(this, 'file', _id)}
+                            onDoubleClick={this.openWindowAlt.bind(this, 'FileViewer', fileName)}>
+                            <div id={_id + "icon"}>
+                              <InsertDriveFileIcon className={classes.foldericon} /></div>
+                            <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                </div>
+              }
 
               <Menu
                 color="secondary"

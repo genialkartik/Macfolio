@@ -12,7 +12,8 @@
     "mongoose": "^5.9.20",
     "path": "^0.12.7",
     "reactjs-pdf-reader": "^1.0.12",
-    "recompose": "^0.30.0"
+    "recompose": "^0.30.0",
+    "systeminformation": "^4.26.10"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
