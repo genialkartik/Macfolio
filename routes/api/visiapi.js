@@ -1,31 +1,41 @@
 const express = require('express')
 const router = express.Router()
+const sysinfo = require('systeminformation')
 
 const visiD = require('../../models/visidata')
 
-// @route GET api/visidata
-// @desc  get vister's data
-
 router.route('/')
-    .get((req, res)=>{
-        visiD.find()
-            .sort({ date: -1 })
-            .then(data => res.json(data))
-    })
-    .post((req, res)=>{
-        const newVisi = new visiD({
-            name: req.body.name,
-            battery: req.body.battery,
-            wifi: req.body.wifi
+    .get((req, res) => {
+        var visidata = [];
+        var storeVisiData = [];
+        sysinfo.system(function (system) {
+            storeVisiData.push(system)
         })
-        newVisi.save().then(data=>res.json(data))
-    })
+        sysinfo.users(function (user) {
+            storeVisiData.push(user[0])
+        })
+        sysinfo.osInfo(function (osinfo) {
+            storeVisiData.push(osinfo)
+            visiD.find({
+                User: {
+                    user: 'tyagi'
+                }
+            })
+            .then(data=>console.log(data))
 
-router.route('/:visid')
-    .delete((req, res)=>{
-        visiD.findById(req.params.visid)
-        .then(data => data.remove().then(()=>res.json({success: true})))
-        .catch(err=> res.status(404).json({success: false}))
+            // var newVisiData = new visiD({
+            //     System: storeVisiData[0],
+            //     User: storeVisiData[1],
+            //     osInfo: storeVisiData[2]
+            // })
+            // newVisiData.save()
+            // .then(data=>console.log(data))
+        })
+        sysinfo.battery(function (btry) {
+            visidata.push(btry.ischarging)
+            visidata.push(btry.percent)
+            res.json(visidata)
+        })
     })
 
 module.exports = router;
