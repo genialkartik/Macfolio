@@ -23,7 +23,7 @@ mongoose.connect(db, {
     .catch(err => console.log(err))
 
 // Use Routes
-app.use('/api/visidata', visiapi)
+app.use('/visidata', visiapi)
 app.use('/explorer', explorers)
 
 const port = process.env.Port || 2050
