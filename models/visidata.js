@@ -2,13 +2,17 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const VisiData = new Schema({
-    name:{
-        type: String,
-        required: true
+    System: {
+        type: Object,
+        required: false
     },
-    date: {
-        type: Date,
-        default: Date.now
+    User: {
+        type: Object,
+        required: false
+    },
+    osInfo: {
+        type: Object,
+        required: false
     }
 })
 
