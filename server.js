@@ -15,9 +15,10 @@ const db = require('./config/keys').mongoURI
 
 mongoose.connect(db, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true
 })
-    .then(()=>{
+    .then(() => {
         console.log('MongoDB Connected.')
     })
     .catch(err => console.log(err))
@@ -27,7 +28,7 @@ app.use('/visidata', visiapi)
 app.use('/explorer', explorers)
 
 const port = process.env.Port || 2050
-app.listen(port, ()=> console.log('Listening on Port: '+port))
+app.listen(port, () => console.log('Listening on Port: ' + port))
 
 
 
