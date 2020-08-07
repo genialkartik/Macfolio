@@ -150,7 +150,6 @@ const styles = theme => ({
   }
 });
 
-
 class Explorer extends Component {
   constructor(props) {
     super(props)
@@ -164,9 +163,8 @@ class Explorer extends Component {
       file: null,
       filenametoUpload: null,
       isFolderSelected: false,
-      currentPath: [],
       uploadfileOpen: false,
-      activeWindowId: null
+      activeWindowId: null,
     }
     this.toggleContainer = React.createRef();
     this.uploadedfile = React.createRef();
@@ -179,9 +177,6 @@ class Explorer extends Component {
       rightClickedOn: null,
       activeWindowId: this.props.wid
     })
-    this.setState({
-      currentPath: [...this.state.currentPath, this.props.windItem]
-    });
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.onClickOutsideHandler);
@@ -202,7 +197,6 @@ class Explorer extends Component {
   onSelectFolder(id) {
     $('#' + id + 'icon').toggleClass('foldericonselect')
     $('#' + id + 'name').toggleClass('foldernameselect')
-
     if (this.state.selectfolderName === id) {
       this.setState({
         isFolderSelected: false,
@@ -221,16 +215,16 @@ class Explorer extends Component {
   }
   // onDoubleClick on folder or file
   openFolder(wid, folderName) {
-    this.setState({
-      currentPath: [...this.state.currentPath, folderName]
-    });
-
-    var currPath = this.state.currentPath.toString().replace(/,/g, '/') + '/' + folderName;
+    var tempCurrentPath = this.props.currPath.currentPath
+    tempCurrentPath.push(folderName)
+    var currPath = this.props.currPath.currentPath.toString().replace(/,/g, '/');
     this.props.dataExchange({
       waction: 'openFolder',
       wid: wid,
-      currPath: currPath
+      currPath: currPath,
+      currentPath: tempCurrentPath
     })
+
   }
   // Data send back to MacOS (parent)
   closeW(clsid) {
@@ -246,12 +240,21 @@ class Explorer extends Component {
       wdata: wdata
     }
     this.props.dataExchange(winData)
-    this.activeWindow(winData.wid)
   }
-  changewSubTypeData(oDataId, wsdata) {
+
+  openFIle(wtype, id, wdata) {
+    this.props.dataExchange({
+      waction: wtype,
+      wid: id,
+      wdata: wdata
+    })
+  }
+
+  changewSubTypeData(oDataId, wdata, wsdata) {
     const winData = {
       waction: 'changewsData',
       id: oDataId,
+      wdata: wdata,
       wsubtype: 'other',
       wsdata: wsdata
     }
@@ -262,12 +265,8 @@ class Explorer extends Component {
       rightClickedOn: null,
       activeWindowId: wid
     })
-    $('.wind-con').css({
-      zIndex: "100"
-    })
-    $("#wc" + wid).css({
-      zIndex: "1000"
-    })
+    $('.wind-con').css({ zIndex: "100" })
+    $("#wc" + wid).css({ zIndex: "1000" })
   }
   resizeWindow(wid) {
     var temp = "#wc" + wid
@@ -319,40 +318,47 @@ class Explorer extends Component {
     })
   }
   windowBack(wid) {
-    if (this.state.currentPath.length === 1) {
+    if (this.props.currPath.currentPath.length === 1) {
       return 1
     }
     else {
-      let newPath = this.state.currentPath.slice(0, -1)
-      this.setState({
-        currentPath: newPath
-      })
-      var currPath = newPath.toString().replace(/,/g, '/');
+      let tempPathAr = this.props.currPath.currentPath
+      let newCurentPath = tempPathAr.slice(0, -1)
+      var currPath = newCurentPath.toString().replace(/,/g, '/');
       this.props.dataExchange({
         waction: 'openFolder',
         wid: wid,
-        currPath: currPath
+        currPath: currPath,
+        currentPath: newCurentPath
       })
     }
   }
   fileUploadonChange = e => {
     this.setState({
-      file: e.target.files[0],
-      filenametoUpload: e.target.files[0].name
+      file: e.target.files[0]
+    })
+  }
+  fileNameonChange = e => {
+    this.setState({
+      filenametoUpload: e.target.value
     })
   }
   uploadFile = (wid, e) => {
     e.preventDefault();
     let formData = new FormData();
     formData.append('filetoupload', this.state.file)
-    formData.append('itempath', this.state.currentPath.toString().replace(/,/g, '/'))
+    formData.append('filenametoupload', this.state.filenametoUpload)
+    formData.append('itempath', this.props.currPath.currentPath.toString().replace(/,/g, '/'))
     this.props.dataExchange({ //sent to itemAction
       wid: wid,
       waction: 'uploadItem',
       formdata: formData //sendt to itemAction and then explorer.js in
     })
+    console.log(this.state.filenametoUpload)
+    console.log(this.props.currPath.currentPath.toString().replace(/,/g, '/'))
     this.setState({ uploadfileOpen: false, rightClickedOn: null })
   }
+
 
   render() {
     const { classes } = this.props
@@ -365,11 +371,11 @@ class Explorer extends Component {
       this.props.windItem === 'Miscellaneous') {
       Wdata = windData[this.props.windItem]
     }
-
-
     return (
       <Draggable>
-        <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
+        <div className="wind-con" id={windConId}
+          // onDrag={this.handleOnDrag.bind(this, this.props.wid)}
+          onClick={this.activeWindow.bind(this, this.props.wid)}>
           <div id="wind-up-tab">
             <ul>
               <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
@@ -407,7 +413,7 @@ class Explorer extends Component {
                 <StyledTreeItem nodeId="2" labelText="Resume"
                   onClick={this.openWindowAlt.bind(this, 'Terminal', 'Resume')} labelIcon={InsertDriveFileIcon} />
                 <StyledTreeItem nodeId="3" labelText="Social"
-                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'connect')}
+                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'connect')}
                   labelIcon={SupervisorAccountIcon}>
                   <StyledTreeItem
                     nodeId="6"
@@ -416,7 +422,7 @@ class Explorer extends Component {
                     labelInfo="90"
                     color="#1a73e8"
                     bgColor="#e8f0fe"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'twitter')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'twitter')}
                   />
                   <StyledTreeItem
                     nodeId="7"
@@ -425,7 +431,7 @@ class Explorer extends Component {
                     labelInfo="2,294"
                     color="#e3742f"
                     bgColor="#fcefe3"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'devtoblogs')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'devtoblogs')}
                   />
                   <StyledTreeItem
                     nodeId="8"
@@ -434,7 +440,7 @@ class Explorer extends Component {
                     labelInfo="3,566"
                     color="#a250f5"
                     bgColor="#f3e8fd"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'stackoverflow')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'stackoverflow')}
                   />
                   <StyledTreeItem
                     nodeId="9"
@@ -443,13 +449,13 @@ class Explorer extends Component {
                     labelInfo="733"
                     color="#3c8039"
                     bgColor="#e6f4ea"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'instagram')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'instagram')}
                   />
                 </StyledTreeItem>
                 <StyledTreeItem nodeId="4" labelText="GitHub"
-                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'githubprofile')} labelIcon={GitHubIcon} />
+                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'githubprofile')} labelIcon={GitHubIcon} />
                 <StyledTreeItem nodeId="5" labelText="Help"
-                  onClick={this.openWindowAlt.bind(this, this.props, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
+                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
               </TreeView>
             </div>
             <div className="wdt-right" onContextMenu={this.onrightClick.bind(this, null, null)} style={{ cursor: 'context-menu' }}>
@@ -484,7 +490,7 @@ class Explorer extends Component {
                             className={classes.folder}
                             onClick={this.onSelectFolder.bind(this, _id)}
                             onContextMenu={this.onrightClick.bind(this, 'file', _id)}
-                            onDoubleClick={this.openWindowAlt.bind(this, 'FileViewer', fileName)}>
+                            onDoubleClick={this.openFIle.bind(this, 'FileViewer', this.props.wid, fileName)}>
                             <div id={_id + "icon"}>
                               <InsertDriveFileIcon className={classes.foldericon} /></div>
                             <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
@@ -512,15 +518,15 @@ class Explorer extends Component {
                   <MenuItem onClick={() => {
                     const newfoldername = prompt('Enter Folder Name')
                     if (newfoldername) {
-                      this.setState(state => ({
+                      this.setState({
                         mouseX: null,
                         mouseY: null,
-                      }))
+                      })
                       axios.post('/explorer/folder', {
                         fname: newfoldername,
                         ftype: 'folder',
                         fsize: 0,
-                        fpath: this.state.currentPath.toString().replace(/,/g, '/')
+                        fpath: this.props.currPath.currentPath.toString().replace(/,/g, '/')
                       })
                         .then(res => {
                           this.props.dataExchange({
@@ -534,14 +540,21 @@ class Explorer extends Component {
                   }
                   }>Create folder</MenuItem>
                 }
-                <MenuItem onClick={() => { this.setState({ uploadfileOpen: true }) }}>Upload file</MenuItem>
+                <MenuItem onClick={() => {
+                  this.setState({
+                    mouseX: null,
+                    mouseY: null,
+                    uploadfileOpen: true
+                  })
+                }}>Upload file</MenuItem>
                 <Modal
                   open={this.state.uploadfileOpen}
                   onClose={() => { this.setState({ uploadfileOpen: false }) }} >
                   <div className={classes.uploadfile}>
                     <form method="POST" onSubmit={this.uploadFile.bind(this, this.props.wid)} encType="multipart/form-data">
                       <label>Upload File</label><br /><br />
-                      <input type="file" id="customFile" onChange={this.fileUploadonChange.bind(this)} /> <br /><br />
+                      <input type="file" id="customFile" onChange={this.fileUploadonChange.bind(this)} /><br />
+                      <input type="text" id="customFilename" onChange={this.fileNameonChange.bind(this)} /> <br /><br />
                       <button type="submit" value="Upload">Upload</button>
                     </form>
                   </div>
@@ -567,7 +580,6 @@ class Explorer extends Component {
             </div>
           </div>
         </div>
-
       </Draggable>
     )
   }

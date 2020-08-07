@@ -11,7 +11,6 @@ export default class FileViewer extends Component {
     super(props);
     this.state = {}
   }
-
   closeW(clsid) {
     this.props.dataExchange({
       waction: 'closeWindow',
@@ -51,7 +50,10 @@ export default class FileViewer extends Component {
 
   render() {
     var windConId = "wc" + this.props.wid
-    let fileUrl = './documents/' + this.props.filename.replace(/\s/g, '')
+    var filename = this.props.filename
+    let fileUrl = './documents/' + filename.replace(/\s/g, '')
+    var fileType = filename.substring(filename.indexOf('.') + 1, filename.length)
+    console.log(fileType)
     return (
       <Draggable>
         <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
@@ -67,9 +69,19 @@ export default class FileViewer extends Component {
           </div>
 
           <div id="wind-ter-conn">
-            <div className="pdfviewer-container">
-              <PDFReader url={fileUrl} showAllPage="true" />
-            </div>
+            {(fileType === 'pdf') &&
+              <div className="pdfviewer-container">
+                <PDFReader url={fileUrl} showAllPage="true" />
+              </div>
+            }
+            {(fileType !== 'pdf') &&
+              <div >
+                <img style={{ position: 'absolute', width: '100%', objectFit: 'cover' }}
+                  src={fileUrl} alt="imageViewer" />
+              </div>
+            }
+
+
           </div>
         </div>
       </Draggable>

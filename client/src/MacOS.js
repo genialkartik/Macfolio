@@ -50,18 +50,20 @@ class App extends Component {
       // data & info send to Explorer and subExplorer
       otherData: [],
       // system information
-      sysInfo: []
+      sysInfo: [],
+      // current Path 
+      currPath: []
     }
   }
 
-  componentDidMount() {
-    axios.get('/visidata')
-      .then(res => {
-        this.setState({
-          sysInfo: res.data
-        })
-      })
-  }
+  // componentDidMount() {
+  //   axios.get('/visidata')
+  //     .then(res => {
+  //       this.setState({
+  //         sysInfo: res.data
+  //       })
+  //     })
+  // }
 
   todataExchange(returnData) {
     // to close window
@@ -75,16 +77,22 @@ class App extends Component {
       this.setState(({ otherData }) => ({
         otherData: otherData.filter(e => e.id !== returnData.wid)
       }))
+      this.setState(({ currPath }) => ({
+        currPath: currPath.filter(e => e.id !== returnData.wid)
+      }))
     }
     // to open file 
     if (returnData.waction === 'FileViewer') {
       this.setState(state => ({
         fileViewer: [...state.fileViewer, {
-          id: returnData.wid,
+          id: this.state.windowId + 1,
           fileType: returnData.waction,
           filename: returnData.wdata
         }]
       }))
+      this.setState({
+        windowId: this.state.windowId + 1
+      })
     }
     // open Folder
     if (returnData.waction === 'openFolder') {
@@ -104,6 +112,20 @@ class App extends Component {
               }
             })
             return { windItems }
+          })
+          let copycurrPath = [...this.state.currPath]
+          // eslint-disable-next-line
+          this.state.currPath.map((cPath, index) => {
+            if (returnData.wid === cPath.id) {
+              copycurrPath.splice(index, 1,
+                {
+                  id: returnData.wid,
+                  currentPath: returnData.currentPath
+                })
+            }
+          })
+          this.setState({
+            currPath: copycurrPath
           })
         })
     }
@@ -132,6 +154,7 @@ class App extends Component {
         const windItems = state.windowItems.map((windows) => {
           if (returnData.id === windows.id) {
             return (
+              windows.windowData = returnData.wdata,
               windows.folderitems = [],
               windows.fileitems = []
             )
@@ -245,6 +268,12 @@ class App extends Component {
               fileitems: files,
             }]
           }))
+          this.setState(state => ({
+            currPath: [...state.currPath, {
+              id: this.state.windowId,
+              currentPath: [wdata]
+            }]
+          }))
         })
     }
     this.setState({
@@ -261,6 +290,7 @@ class App extends Component {
   render() {
     const { windowItems, fileViewer } = this.state;
     const now = new Date()
+    console.log(this.state.windowItems)
 
     return (
       <div>
@@ -308,7 +338,7 @@ class App extends Component {
                     <li><img className="onHover" id="ryt-menu-nav" src={require('./assets/icons/menu.png')} alt="" /></li>
                     <li><img className="onHover" src={require('./assets/icons/search.png')} alt="" /></li>
                     <li><img className="onHover" onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help')}
-                     src={require('./assets/icons/terminal.png')} alt="" /></li>
+                      src={require('./assets/icons/terminal.png')} alt="" /></li>
                     {/* <li><div id="clockbox"></div></li> */}
                     <li><div id="">{date.format(now, 'ddd hh:mm A')}</div></li>
                     {
@@ -453,7 +483,7 @@ class App extends Component {
     }
     else {
       return (
-        <div key={id}>
+        <div key={id + Number(Math.random())}>
           <Window filename={fname} wid={id} dataExchange={this.todataExchange.bind(this)} />
         </div>
       )
@@ -462,21 +492,30 @@ class App extends Component {
   renderSelectedWindow(id, wtype, wdata, wfolders, wfiles) {
     let Window = Windows[wtype]
     let tempoData;
+    let tempcurrPath
     // eslint-disable-next-line
     this.state.otherData.map((oData) => {
       if (oData.id === id) {
         tempoData = oData
       }
     })
+    // eslint-disable-next-line
+    this.state.currPath.map((cPath) => {
+      if (cPath.id === id) {
+        tempcurrPath = cPath
+      }
+    })
+
     if (!wtype || !wdata) {
       return (<div key={id}> <Nowind /></div>)
     }
     else {
       return (
-        <div key={id}>
+        <div key={id + Number(Math.random())}>
           <Window
             wid={id}
             otherData={tempoData}
+            currPath={tempcurrPath}
             windItem={wdata}
             windowFiles={wfiles}
             windowFolders={wfolders}

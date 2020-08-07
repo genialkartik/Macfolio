@@ -6,18 +6,18 @@ import $ from 'jquery'
 
 
 
-class Terminal extends React.Component { 
-    
-    closeW(clsid){
+class Terminal extends React.Component {
+
+    closeW(clsid) {
         this.props.dataExchange({
             waction: 'closeWindow',
             wid: clsid
-          })
+        })
     }
-    resizeWindow(wid){
-        var temp = "#wc"+wid
+    resizeWindow(wid) {
+        var temp = "#wc" + wid
         var widthOfWindow = parseInt($(temp).css("width")) / parseInt($('#root').css("width")) * 100
-        if(widthOfWindow <= 99){
+        if (widthOfWindow <= 99) {
             $(temp).css({
                 "width": "100%",
                 "height": "100%",
@@ -25,7 +25,7 @@ class Terminal extends React.Component {
                 "left": "0",
                 "transform": "translate(0%, 0%)"
             })
-        }else{
+        } else {
             $(temp).css({
                 "width": "60%",
                 "height": "70%",
@@ -35,42 +35,43 @@ class Terminal extends React.Component {
             })
         }
     }
-    activeWindow(wid){
+    activeWindow(wid) {
         console.log('active window')
         $('.wind-con').css({
             zIndex: "100"
         })
-        $("#wc"+wid).css({
+        $("#wc" + wid).css({
             zIndex: "1000"
         })
 
     }
 
-    render(){
-    const Wdata = windData[this.props.windItem]  //passing data back to MacOS  
-    var windConId = "wc"+this.props.wid  
-    return (
-        <Draggable>
-        <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
-            <div id="wind-up-tab">
-                <ul>
-                    <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
-                    </li>
-                    <li id="minimztab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}></li>
-                    <li id="tabsize" className="wintab" onClick={this.resizeWindow.bind(this, this.props.wid)}></li>
-                    <li id="opnd-wind-icon-thumbnail" className="opndwintab"><img src={require('../../../assets/icons/help.png')} alt="Window" /></li>
-                    <li className="opndwintab">{this.props.windItem}</li>
-                </ul>
-            </div>
-            
-            <div id="wind-ter-conn">
-                <div className="wind-ter-container">
-                    <Wdata />
+    render() {
+        const Wdata = windData[this.props.windItem]  //passing data back to MacOS  
+        var windConId = "wc" + this.props.wid
+        return (
+            <Draggable>
+                <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
+                    <div id="wind-up-tab">
+                        <ul>
+                            <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
+                            </li>
+                            <li id="minimztab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}></li>
+                            <li id="tabsize" className="wintab" onClick={this.resizeWindow.bind(this, this.props.wid)}></li>
+                            <li id="opnd-wind-icon-thumbnail" className="opndwintab"><img src={require('../../../assets/icons/help.png')} alt="Window" /></li>
+                            <li className="opndwintab">{this.props.windItem}</li>
+                        </ul>
+                    </div>
+
+                    <div id="wind-ter-conn">
+                        <div className="wind-ter-container">
+                            <Wdata />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        </Draggable>
-    )}
+            </Draggable>
+        )
+    }
 }
 
 export default Terminal;
