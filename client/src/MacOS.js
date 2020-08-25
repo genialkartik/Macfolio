@@ -52,7 +52,9 @@ class App extends Component {
       // system information
       sysInfo: [],
       // current Path 
-      currPath: []
+      currPath: [],
+      // window position
+      winPos: {id:0, left: 0, top: 0}
     }
   }
 
@@ -81,6 +83,24 @@ class App extends Component {
         currPath: currPath.filter(e => e.id !== returnData.wid)
       }))
     }
+    // if (returnData.waction === 'winPos') {
+    //   console.log(returnData)
+    //   let copywinPos = [...this.state.winPos]
+    //   // eslint-disable-next-line
+    //   this.state.winPos.map((wPos, index) => {
+    //     if (returnData.wid === wPos.id) {
+    //       copywinPos.splice(index, 1,
+    //         {
+    //           id: returnData.wid,
+    //           left: returnData.left,
+    //           top: returnData.top
+    //         })
+    //     }
+    //   })
+    //   this.setState({
+    //     winPos: copywinPos
+    //   })
+    // }
     // to open file 
     if (returnData.waction === 'FileViewer') {
       this.setState(state => ({
@@ -126,6 +146,14 @@ class App extends Component {
           })
           this.setState({
             currPath: copycurrPath
+          })
+          
+          this.setState({
+            winPos: {
+              id: returnData.wid,
+              left: returnData.diffX,
+              top: returnData.diffY
+            }
           })
         })
     }
@@ -240,7 +268,7 @@ class App extends Component {
       this.setState({ windowId: this.state.windowId + 1 })
     }
   }
-
+  // open new window
   openWindow(otherdata, wtype, wdata) {
     if (wtype === 'Terminal') {
       this.setState(state => ({
@@ -290,7 +318,7 @@ class App extends Component {
   render() {
     const { windowItems, fileViewer } = this.state;
     const now = new Date()
-    console.log(this.state.windowItems)
+    console.log(this.state.winPos)
 
     return (
       <div>
@@ -492,7 +520,8 @@ class App extends Component {
   renderSelectedWindow(id, wtype, wdata, wfolders, wfiles) {
     let Window = Windows[wtype]
     let tempoData;
-    let tempcurrPath
+    let tempcurrPath;
+    let tempwPos;
     // eslint-disable-next-line
     this.state.otherData.map((oData) => {
       if (oData.id === id) {
@@ -505,6 +534,9 @@ class App extends Component {
         tempcurrPath = cPath
       }
     })
+    // eslint-disable-next-line
+    tempwPos = this.state.winPos;
+
 
     if (!wtype || !wdata) {
       return (<div key={id}> <Nowind /></div>)
@@ -516,6 +548,7 @@ class App extends Component {
             wid={id}
             otherData={tempoData}
             currPath={tempcurrPath}
+            winPos={tempwPos}
             windItem={wdata}
             windowFiles={wfiles}
             windowFolders={wfolders}

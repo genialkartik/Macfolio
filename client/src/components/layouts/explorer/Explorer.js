@@ -164,8 +164,9 @@ class Explorer extends Component {
       filenametoUpload: null,
       isFolderSelected: false,
       uploadfileOpen: false,
-      activeWindowId: null,
+      activeWindowId: null
     }
+
     this.toggleContainer = React.createRef();
     this.uploadedfile = React.createRef();
     this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this);
@@ -180,6 +181,7 @@ class Explorer extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.onClickOutsideHandler);
+
   }
 
   onClickOutsideHandler(event) {
@@ -214,7 +216,7 @@ class Explorer extends Component {
     }
   }
   // onDoubleClick on folder or file
-  openFolder(wid, folderName) {
+  openFolder(wid, folderName, e) {
     var tempCurrentPath = this.props.currPath.currentPath
     tempCurrentPath.push(folderName)
     var currPath = this.props.currPath.currentPath.toString().replace(/,/g, '/');
@@ -222,10 +224,33 @@ class Explorer extends Component {
       waction: 'openFolder',
       wid: wid,
       currPath: currPath,
-      currentPath: tempCurrentPath
+      currentPath: tempCurrentPath,
+      diffX: e.currentTarget.getBoundingClientRect().left,
+      diffY: e.currentTarget.getBoundingClientRect().top
     })
-
   }
+
+  // _dragStart(e) {
+  //   this.setState({
+  //     diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
+  //     diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
+  //     dragging: true
+  //   });
+  // }
+
+  // _dragging(wid, e) {
+  //   if (this.state.dragging) {
+  //     var left = e.screenX - this.state.diffX;
+  //     var top = e.screenY - this.state.diffY;
+  //     this.setState({
+  //       styles: {
+  //         left: left,
+  //         top: top
+  //       }
+  //     });
+  //   }
+  // }
+
   // Data send back to MacOS (parent)
   closeW(clsid) {
     this.props.dataExchange({
@@ -354,10 +379,9 @@ class Explorer extends Component {
       waction: 'uploadItem',
       formdata: formData //sendt to itemAction and then explorer.js in
     })
-    console.log(this.state.filenametoUpload)
-    console.log(this.props.currPath.currentPath.toString().replace(/,/g, '/'))
     this.setState({ uploadfileOpen: false, rightClickedOn: null })
   }
+
 
 
   render() {
@@ -371,11 +395,16 @@ class Explorer extends Component {
       this.props.windItem === 'Miscellaneous') {
       Wdata = windData[this.props.windItem]
     }
+
     return (
       <Draggable>
         <div className="wind-con" id={windConId}
-          // onDrag={this.handleOnDrag.bind(this, this.props.wid)}
-          onClick={this.activeWindow.bind(this, this.props.wid)}>
+          style={
+            (this.state.activeWindowId === this.props.winPos.id) ?
+              { left: this.props.winPos.left, top: this.props.winPos.top } :
+              {}
+          }
+          onClick={this.activeWindow.bind(this, this.props.wid)} >
           <div id="wind-up-tab">
             <ul>
               <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
@@ -579,7 +608,7 @@ class Explorer extends Component {
               </Menu>
             </div>
           </div>
-        </div>
+        </div >
       </Draggable>
     )
   }
