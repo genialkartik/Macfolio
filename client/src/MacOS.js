@@ -7,35 +7,35 @@ import date from 'date-and-time';
 import Nowind from './components/Nowind'
 import RightSideBar from './components/layouts/RightSideBar'
 import * as Windows from './components/layouts'
-
+import $ from 'jquery'
 import WifiIcon from '@material-ui/icons/Wifi';
 import BatteryStdIcon from '@material-ui/icons/BatteryStd';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 
 
-// $(document).ready(function(){
-//   // if on Mobile
-//   $(function(){
-//      if(parseInt($("body").css("width")) < 700){
-//        window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
-//      }
-//    });
+$(document).ready(function(){
+  // if on Mobile
+  $(function(){
+     if(parseInt($("body").css("width")) < 700){
+       window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
+     }
+   });
 
-//    // Chaining
-//  $(".top-menu-bar").delay().animate({top: '0'}, "slow");
-//  $(".docker-container").delay().animate({bottom: '0'}, "fast",)
-//  .delay(1000).promise().done(initiatedemo);
+   // Chaining
+ $(".top-menu-bar").delay().animate({top: '0'}, "slow");
+ $(".docker-container").delay().animate({bottom: '0'}, "fast",)
+ .delay(1000).promise().done(initiatedemo);
 
-//  //   --> initiate docker hint and upper docker hint
-//  function initiatedemo(){
-//    $(".doc-demo").css({"border-top": "1px solid #424242","font-size": "0.7em"}) //docker hint
-//    .delay(2000).promise().done(rminitiatedemo);
-//  }
-//  //   --> finish demo
-//  function rminitiatedemo(){
-//    $(".doc-demo").css("font-size", "0em")
-//  }
-// })
+ //   --> initiate docker hint and upper docker hint
+ function initiatedemo(){
+   $(".doc-demo").css({"border-top": "1px solid #424242","font-size": "0.7em"}) //docker hint
+   .delay(2000).promise().done(rminitiatedemo);
+ }
+ //   --> finish demo
+ function rminitiatedemo(){
+   $(".doc-demo").css("font-size", "0em")
+ }
+})
 
 class App extends Component {
 
@@ -54,20 +54,38 @@ class App extends Component {
       // current Path 
       currPath: [],
       // window position
-      winPos: {id:0, left: 0, top: 0}
+      winPos: [],
     }
   }
+  componentDidMount() {
+    axios.get('/visidata')
+      .then(res => {
+        this.setState({
+          sysInfo: res.data
+        })
+      })
+  }
 
-  // componentDidMount() {
-  //   axios.get('/visidata')
-  //     .then(res => {
-  //       this.setState({
-  //         sysInfo: res.data
-  //       })
-  //     })
-  // }
+  winPos = (returnData) => {
+    let copywinPos = [...this.state.winPos]
+    // eslint-disable-next-line
+    this.state.winPos.map((wPos, index) => {
+      if (returnData.wid === wPos.id) {
+        copywinPos.splice(index, 1,
+          {
+            id: returnData.wid,
+            left: returnData.diffX,
+            top: returnData.diffY
+          })
+      }
+    })
+    this.setState({
+      winPos: copywinPos
+    })
+  }
 
   todataExchange(returnData) {
+
     // to close window
     if (returnData.waction === 'closeWindow') {
       this.setState(({ windowItems }) => ({
@@ -82,27 +100,13 @@ class App extends Component {
       this.setState(({ currPath }) => ({
         currPath: currPath.filter(e => e.id !== returnData.wid)
       }))
+      this.setState(({ winPos }) => ({
+        winPos: winPos.filter(e => e.id !== returnData.wid)
+      }))
     }
-    // if (returnData.waction === 'winPos') {
-    //   console.log(returnData)
-    //   let copywinPos = [...this.state.winPos]
-    //   // eslint-disable-next-line
-    //   this.state.winPos.map((wPos, index) => {
-    //     if (returnData.wid === wPos.id) {
-    //       copywinPos.splice(index, 1,
-    //         {
-    //           id: returnData.wid,
-    //           left: returnData.left,
-    //           top: returnData.top
-    //         })
-    //     }
-    //   })
-    //   this.setState({
-    //     winPos: copywinPos
-    //   })
-    // }
     // to open file 
     if (returnData.waction === 'FileViewer') {
+      console.log(returnData)
       this.setState(state => ({
         fileViewer: [...state.fileViewer, {
           id: this.state.windowId + 1,
@@ -113,6 +117,7 @@ class App extends Component {
       this.setState({
         windowId: this.state.windowId + 1
       })
+      this.winPos(returnData);
     }
     // open Folder
     if (returnData.waction === 'openFolder') {
@@ -147,14 +152,7 @@ class App extends Component {
           this.setState({
             currPath: copycurrPath
           })
-          
-          this.setState({
-            winPos: {
-              id: returnData.wid,
-              left: returnData.diffX,
-              top: returnData.diffY
-            }
-          })
+          this.winPos(returnData);
         })
     }
     if (returnData.waction === 'changewsData') {
@@ -190,6 +188,7 @@ class App extends Component {
         })
         return { windItems }
       })
+      this.winPos(returnData);
     }
     // to open WindowAlt 
     if (returnData.waction === 'createFolder') {
@@ -266,6 +265,7 @@ class App extends Component {
         }]
       }))
       this.setState({ windowId: this.state.windowId + 1 })
+      this.winPos(returnData);
     }
   }
   // open new window
@@ -273,7 +273,7 @@ class App extends Component {
     if (wtype === 'Terminal') {
       this.setState(state => ({
         windowItems: [...state.windowItems, {
-          id: this.state.windowId,
+          id: this.state.windowId + 1,
           windowType: wtype,
           windowData: wdata,
           folderitems: [],
@@ -310,6 +310,11 @@ class App extends Component {
         id: this.state.windowId + 1,
         wSubType: otherdata.wSubType,
         wsData: otherdata.wsData
+      }],
+      winPos: [...this.state.winPos, {
+        id: this.state.windowId + 1,
+        left: "350px",
+        top: "120px"
       }]
     })
   }
@@ -318,10 +323,9 @@ class App extends Component {
   render() {
     const { windowItems, fileViewer } = this.state;
     const now = new Date()
-    console.log(this.state.winPos)
 
     return (
-      <div>
+      <div id="mac-cont">
         {/* ////////   Upper Docker  /////////// */}
         < div className="top-menu-bar" >
           <div className="upper-docker-conn" id="upr-dkr-conn">
@@ -344,7 +348,7 @@ class App extends Component {
                     <div id="up-do-menu">
                       <ul>
                         <li className="abo-doc hnthvr udllst02"
-                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Blogs')}
+                          onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect')}
                         >Blog</li>
                         <li className="abo-doc hnthvr udllst03"
                           onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Resume')}
@@ -374,7 +378,7 @@ class App extends Component {
                         <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryChargingFullIcon /></li> :
                         <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryStdIcon /></li>
                     }
-                    <li><span>{this.state.sysInfo[1]}%</span></li>
+                    <li><span>{this.state.sysInfo[1]?this.state.sysInfo[1]:55 }%</span></li>
                     <li><WifiIcon /></li>
                   </ul>
                 </div>
@@ -463,7 +467,7 @@ class App extends Component {
                 <li>
                   <span className="doc-demo">connect     </span>
                   <img className="dcimg" id="con-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'connect' }, 'Explorer', 'Connect')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect')}
                     src={require('./assets/icons/connect.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Gallery     </span>
@@ -535,7 +539,11 @@ class App extends Component {
       }
     })
     // eslint-disable-next-line
-    tempwPos = this.state.winPos;
+    this.state.winPos.map((wPos) => {
+      if (wPos.id === id) {
+        tempwPos = wPos
+      }
+    })
 
 
     if (!wtype || !wdata) {

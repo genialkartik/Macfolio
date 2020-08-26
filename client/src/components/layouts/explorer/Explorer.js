@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import axios from 'axios'
 import * as windData from '../../windows/index'
@@ -217,6 +218,8 @@ class Explorer extends Component {
   }
   // onDoubleClick on folder or file
   openFolder(wid, folderName, e) {
+
+    var x = $("#wc" + wid).position();
     var tempCurrentPath = this.props.currPath.currentPath
     tempCurrentPath.push(folderName)
     var currPath = this.props.currPath.currentPath.toString().replace(/,/g, '/');
@@ -225,31 +228,10 @@ class Explorer extends Component {
       wid: wid,
       currPath: currPath,
       currentPath: tempCurrentPath,
-      diffX: e.currentTarget.getBoundingClientRect().left,
-      diffY: e.currentTarget.getBoundingClientRect().top
+      diffX: x.left,
+      diffY: x.top,
     })
   }
-
-  // _dragStart(e) {
-  //   this.setState({
-  //     diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
-  //     diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
-  //     dragging: true
-  //   });
-  // }
-
-  // _dragging(wid, e) {
-  //   if (this.state.dragging) {
-  //     var left = e.screenX - this.state.diffX;
-  //     var top = e.screenY - this.state.diffY;
-  //     this.setState({
-  //       styles: {
-  //         left: left,
-  //         top: top
-  //       }
-  //     });
-  //   }
-  // }
 
   // Data send back to MacOS (parent)
   closeW(clsid) {
@@ -259,31 +241,40 @@ class Explorer extends Component {
     })
   }
 
-  openWindowAlt(wtype, wdata) {
-    const winData = {
-      waction: wtype,
-      wdata: wdata
-    }
-    this.props.dataExchange(winData)
-  }
-
-  openFIle(wtype, id, wdata) {
+  openWindowAlt(wid, wtype, wdata) {
+    var x = $("#wc" + wid).position();
     this.props.dataExchange({
       waction: wtype,
-      wid: id,
-      wdata: wdata
+      wid: wid,
+      wdata: wdata,
+      diffX: x.left,
+      diffY: x.top
     })
   }
 
-  changewSubTypeData(oDataId, wdata, wsdata) {
-    const winData = {
+  openFile(wtype, id, wdata) {
+    var x = $("#wc" + id).position();
+    this.props.dataExchange({
+      waction: wtype,
+      wid: id,
+      wdata: wdata,
+      diffX: x.left,
+      diffY: x.top
+    })
+  }
+
+  changewSubTypeData(wid, oDataId, wdata, wsdata) {
+    var x = $("#wc" + wid).position();
+    this.props.dataExchange({
       waction: 'changewsData',
+      wid: wid,
       id: oDataId,
       wdata: wdata,
       wsubtype: 'other',
-      wsdata: wsdata
-    }
-    this.props.dataExchange(winData)
+      wsdata: wsdata,
+      diffX: x.left,
+      diffY: x.top
+    })
   }
   activeWindow(wid) {
     this.setState({
@@ -343,6 +334,7 @@ class Explorer extends Component {
     })
   }
   windowBack(wid) {
+    var x = $("#wc" + wid).position();
     if (this.props.currPath.currentPath.length === 1) {
       return 1
     }
@@ -354,7 +346,9 @@ class Explorer extends Component {
         waction: 'openFolder',
         wid: wid,
         currPath: currPath,
-        currentPath: newCurentPath
+        currentPath: newCurentPath,
+        diffX: x.left,
+        diffY: x.top
       })
     }
   }
@@ -399,10 +393,11 @@ class Explorer extends Component {
     return (
       <Draggable>
         <div className="wind-con" id={windConId}
-          style={
+          style={(this.props.winPos) ?
             (this.state.activeWindowId === this.props.winPos.id) ?
               { left: this.props.winPos.left, top: this.props.winPos.top } :
               {}
+            : {}
           }
           onClick={this.activeWindow.bind(this, this.props.wid)} >
           <div id="wind-up-tab">
@@ -438,11 +433,11 @@ class Explorer extends Component {
               >
 
                 <StyledTreeItem nodeId="1" labelText="About Me"
-                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Aboutme')} labelIcon={PersonPinIcon} />
+                  onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Aboutme')} labelIcon={PersonPinIcon} />
                 <StyledTreeItem nodeId="2" labelText="Resume"
-                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Resume')} labelIcon={InsertDriveFileIcon} />
+                  onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Resume')} labelIcon={InsertDriveFileIcon} />
                 <StyledTreeItem nodeId="3" labelText="Social"
-                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'connect')}
+                  onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'connect')}
                   labelIcon={SupervisorAccountIcon}>
                   <StyledTreeItem
                     nodeId="6"
@@ -451,7 +446,7 @@ class Explorer extends Component {
                     labelInfo="90"
                     color="#1a73e8"
                     bgColor="#e8f0fe"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'twitter')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'twitter')}
                   />
                   <StyledTreeItem
                     nodeId="7"
@@ -460,7 +455,7 @@ class Explorer extends Component {
                     labelInfo="2,294"
                     color="#e3742f"
                     bgColor="#fcefe3"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'devtoblogs')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'devtoblogs')}
                   />
                   <StyledTreeItem
                     nodeId="8"
@@ -469,7 +464,7 @@ class Explorer extends Component {
                     labelInfo="3,566"
                     color="#a250f5"
                     bgColor="#f3e8fd"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'stackoverflow')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'stackoverflow')}
                   />
                   <StyledTreeItem
                     nodeId="9"
@@ -478,13 +473,13 @@ class Explorer extends Component {
                     labelInfo="733"
                     color="#3c8039"
                     bgColor="#e6f4ea"
-                    onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'instagram')}
+                    onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'instagram')}
                   />
                 </StyledTreeItem>
                 <StyledTreeItem nodeId="4" labelText="GitHub"
-                  onClick={this.changewSubTypeData.bind(this, this.props.otherData.id, 'Connect', 'githubprofile')} labelIcon={GitHubIcon} />
+                  onClick={this.changewSubTypeData.bind(this, this.props.wid, this.props.otherData.id, 'Connect', 'githubprofile')} labelIcon={GitHubIcon} />
                 <StyledTreeItem nodeId="5" labelText="Help"
-                  onClick={this.openWindowAlt.bind(this, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
+                  onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Help')} labelIcon={LiveHelpIcon} />
               </TreeView>
             </div>
             <div className="wdt-right" onContextMenu={this.onrightClick.bind(this, null, null)} style={{ cursor: 'context-menu' }}>
@@ -519,7 +514,7 @@ class Explorer extends Component {
                             className={classes.folder}
                             onClick={this.onSelectFolder.bind(this, _id)}
                             onContextMenu={this.onrightClick.bind(this, 'file', _id)}
-                            onDoubleClick={this.openFIle.bind(this, 'FileViewer', this.props.wid, fileName)}>
+                            onDoubleClick={this.openFile.bind(this, 'FileViewer', this.props.wid, fileName)}>
                             <div id={_id + "icon"}>
                               <InsertDriveFileIcon className={classes.foldericon} /></div>
                             <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
@@ -588,8 +583,8 @@ class Explorer extends Component {
                     </form>
                   </div>
                 </Modal>
-                <MenuItem onClick={this.openWindowAlt.bind(this, 'Terminal', 'Help')} >Terminal (help)</MenuItem>
-                <MenuItem onClick={this.openWindowAlt.bind(this, 'Terminal', 'Aboutme')}>About Me</MenuItem>
+                <MenuItem onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Help')} >Terminal (help)</MenuItem>
+                <MenuItem onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Aboutme')}>About Me</MenuItem>
                 {(this.state.rightClickedOn != null) &&
                   <MenuItem onClick={() => {
                     this.props.dataExchange({

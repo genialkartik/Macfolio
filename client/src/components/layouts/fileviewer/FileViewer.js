@@ -56,7 +56,9 @@ export default class FileViewer extends Component {
     console.log(fileType)
     return (
       <Draggable>
-        <div className="wind-con" id={windConId} onClick={this.activeWindow.bind(this, this.props.wid)}>
+        <div className="wind-con" id={windConId} 
+          style={{ left: Math.random()*100+350+'px', top: Math.random()*100+100+'px' }}
+        onClick={this.activeWindow.bind(this, this.props.wid)}>
           <div id="wind-up-tab">
             <ul>
               <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
@@ -76,7 +78,7 @@ export default class FileViewer extends Component {
             }
             {(fileType !== 'pdf') &&
               <div >
-                <img style={{ position: 'absolute', width: '100%', objectFit: 'cover' }}
+                <img style={{ position: 'absolute', height: '100%', objectFit: 'contain' , left: '50%', transform: 'translate(-50%)'}}
                   src={fileUrl} alt="imageViewer" />
               </div>
             }
