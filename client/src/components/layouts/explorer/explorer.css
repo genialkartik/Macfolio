@@ -80,6 +80,12 @@
     font-size: 1em;
     left: 30px;
   }
+
+  .task1{
+    position: relative;
+    left: 15%;
+    top: 50%;
+  }
   
   .wdt-right{
     position: absolute;
@@ -107,7 +113,7 @@
     position:absolute;
   }
   .fileContainer ul li {
-    width:170px;
+    width:160px;
     height:200px;
     word-wrap: break-word;
     margin-right:10px;
@@ -126,3 +132,4 @@
   .foldernameselect{
     background-color: dodgerblue;
   }
+

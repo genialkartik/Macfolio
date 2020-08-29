@@ -1,0 +1,15 @@
+  /* Feedback Form */
+  .feedback-button {
+      position: sticky;
+      left: 40%;
+  }
+
+  .feedback-form {
+    position: absolute;
+    width: 80%;
+    height: 500px;
+    padding: 30px;
+    margin: 30px;
+    background: #ffffff;
+    border-radius: 10px;
+  }

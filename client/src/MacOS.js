@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 
-// import $ from 'jquery'
 import './macos.css';
 import date from 'date-and-time';
 import Nowind from './components/Nowind'
@@ -13,28 +12,28 @@ import BatteryStdIcon from '@material-ui/icons/BatteryStd';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 
 
-$(document).ready(function(){
+$(document).ready(function () {
   // if on Mobile
-  $(function(){
-     if(parseInt($("body").css("width")) < 700){
-       window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
-     }
-   });
+  $(function () {
+    if (parseInt($("body").css("width")) < 700) {
+      window.alert("Kindly, visit on PC for responsive viewport.\nOr select 'Request Desktop Site' in your browser");
+    }
+  });
 
-   // Chaining
- $(".top-menu-bar").delay().animate({top: '0'}, "slow");
- $(".docker-container").delay().animate({bottom: '0'}, "fast",)
- .delay(1000).promise().done(initiatedemo);
+  // Chaining
+  $(".top-menu-bar").delay().animate({ top: '0' }, "slow");
+  $(".docker-container").delay().animate({ bottom: '0' }, "fast",)
+    .delay(1000).promise().done(initiatedemo);
 
- //   --> initiate docker hint and upper docker hint
- function initiatedemo(){
-   $(".doc-demo").css({"border-top": "1px solid #424242","font-size": "0.7em"}) //docker hint
-   .delay(2000).promise().done(rminitiatedemo);
- }
- //   --> finish demo
- function rminitiatedemo(){
-   $(".doc-demo").css("font-size", "0em")
- }
+  //   --> initiate docker hint and upper docker hint
+  function initiatedemo() {
+    $(".doc-demo").css({ "border-top": "1px solid #424242", "font-size": "0.7em" }) //docker hint
+      .delay(2000).promise().done(rminitiatedemo);
+  }
+  //   --> finish demo
+  function rminitiatedemo() {
+    $(".doc-demo").css("font-size", "0em")
+  }
 })
 
 class App extends Component {
@@ -106,12 +105,12 @@ class App extends Component {
     }
     // to open file 
     if (returnData.waction === 'FileViewer') {
-      console.log(returnData)
       this.setState(state => ({
         fileViewer: [...state.fileViewer, {
           id: this.state.windowId + 1,
           fileType: returnData.waction,
-          filename: returnData.wdata
+          filename: returnData.wdata,
+          fileStatus: returnData.fileStatus
         }]
       }))
       this.setState({
@@ -260,6 +259,7 @@ class App extends Component {
           id: this.state.windowId + 1,
           windowType: returnData.waction,
           windowData: returnData.wdata,
+          windowName: returnData.wname,
           folderitems: [],
           fileitems: []
         }]
@@ -267,13 +267,17 @@ class App extends Component {
       this.setState({ windowId: this.state.windowId + 1 })
       this.winPos(returnData);
     }
+    if(returnData.waction === 'openWindow') {
+      this.openWindow(returnData.otherdata, returnData.wtype, returnData.wdata, returnData.wname)
+    }
   }
   // open new window
-  openWindow(otherdata, wtype, wdata) {
+  openWindow(otherdata, wtype, wdata, wname) {
     if (wtype === 'Terminal') {
       this.setState(state => ({
         windowItems: [...state.windowItems, {
           id: this.state.windowId + 1,
+          windowName: wname,
           windowType: wtype,
           windowData: wdata,
           folderitems: [],
@@ -290,6 +294,7 @@ class App extends Component {
           this.setState(state => ({
             windowItems: [...state.windowItems, {
               id: this.state.windowId,
+              windowName: wname,
               windowType: wtype,
               windowData: wdata,
               folderitems: folders,
@@ -340,7 +345,7 @@ class App extends Component {
                   <li>
                     <div id="opn-wndw">
                       <span className="abo-doc hnthvr udllst01"
-                        onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Terminal', 'Aboutme')}
+                        onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Terminal', 'Aboutme', "About Me")}
                       >@tyagi</span>
                     </div>
                   </li>
@@ -348,16 +353,16 @@ class App extends Component {
                     <div id="up-do-menu">
                       <ul>
                         <li className="abo-doc hnthvr udllst02"
-                          onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect')}
+                          onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect', "Blogs")}
                         >Blog</li>
                         <li className="abo-doc hnthvr udllst03"
-                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Resume')}
+                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Resume', "Resume")}
                         >Resume</li>
                         <li className="abo-doc hnthvr udllst04"
-                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Contact')}
+                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Contact', "Contact me")}
                         >Contact Me</li>
                         <li className="abo-doc hnthvr udllst05"
-                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help')}
+                          onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help', "Help")}
                         >Help</li>
                       </ul>
                     </div>
@@ -369,7 +374,7 @@ class App extends Component {
                   <ul>
                     <li><img className="onHover" id="ryt-menu-nav" src={require('./assets/icons/menu.png')} alt="" /></li>
                     <li><img className="onHover" src={require('./assets/icons/search.png')} alt="" /></li>
-                    <li><img className="onHover" onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help')}
+                    <li><img className="onHover" onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help', "Help")}
                       src={require('./assets/icons/terminal.png')} alt="" /></li>
                     {/* <li><div id="clockbox"></div></li> */}
                     <li><div id="">{date.format(now, 'ddd hh:mm A')}</div></li>
@@ -378,7 +383,7 @@ class App extends Component {
                         <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryChargingFullIcon /></li> :
                         <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryStdIcon /></li>
                     }
-                    <li><span>{this.state.sysInfo[1]?this.state.sysInfo[1]:55 }%</span></li>
+                    <li><span>{this.state.sysInfo[1] ? this.state.sysInfo[1] : 55}%</span></li>
                     <li><WifiIcon /></li>
                   </ul>
                 </div>
@@ -388,13 +393,13 @@ class App extends Component {
         </div >
 
         {/* //// Right Side Navigation //// */}
-        < RightSideBar />
+        < RightSideBar dataExchange={this.todataExchange.bind(this)} />
 
         {/* To open FileViewer */}
         < div id="fileviewerid" >
           {
-            fileViewer.map(({ id, fileType, filename }) => (
-              this.renderFile(id, fileType, filename)
+            fileViewer.map(({ id, fileType, filename, fileStatus }) => (
+              this.renderFile(id, fileType, filename, fileStatus)
             ))
           }
         </div >
@@ -402,8 +407,8 @@ class App extends Component {
         {/* //// Explorer and Terminal //// */}
         < div className="window-cont" id="window-cont" >
           {
-            windowItems.map(({ id, windowType, windowData, folderitems, fileitems }) => (
-              this.renderSelectedWindow(id, windowType, windowData, folderitems, fileitems)
+            windowItems.map(({ id, windowType, windowData, windowName, folderitems, fileitems }) => (
+              this.renderSelectedWindow(id, windowType, windowData, windowName, folderitems, fileitems)
             ))
           }
         </div >
@@ -415,89 +420,89 @@ class App extends Component {
                 <li>
                   <span className="doc-demo">About</span>
                   <img className="dcimg" id="abo-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Terminal', 'Aboutme')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Terminal', 'Aboutme', "AboutMe")}
                     src={require('./assets/icons/About.png')} alt="" />
                 </li>
                 <li>
                   <span className="doc-demo">Academics   </span>
                   <img className="dcimg" id="aca-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Academics')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Academics', "Academics")}
                     src={require('./assets/icons/academics.png')} alt="" />
                 </li>
                 <li>
                   <span className="doc-demo">Skills      </span>
                   <img className="dcimg" id="ski-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Skills')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'language' }, 'Terminal', 'Languages', "Skills")}
                     src={require('./assets/icons/skills.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Softwares   </span>
                   <img className="dcimg" id="sof-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Softwares')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'softwares' }, 'Explorer', 'Miscellaneous', "Softwares")}
                     src={require('./assets/icons/softwares.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Experience  </span>
                   <img className="dcimg" id="exp-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Experience')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Experience', "Experience")}
                     src={require('./assets/icons/experience.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">projects    </span>
                   <img className="dcimg" id="pro-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'githubprofile' }, 'Explorer', 'Connect')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'githubprofile' }, 'Explorer', 'Connect', "Projects")}
                     src={require('./assets/icons/projects.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Languages   </span>
                   <img className="dcimg" id="lan-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'language' }, 'Terminal', 'Languages')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'language' }, 'Terminal', 'Languages', "Languages")}
                     src={require('./assets/icons/Languages.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">acheivements</span>
                   <img className="dcimg" id="ach-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Acheivements')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Acheivements', "Certification")}
                     src={require('./assets/icons/acheivements.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Courses     </span>
                   <img className="dcimg" id="cou-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Courses')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Courses', "Courses")}
                     src={require('./assets/icons/courses.png')} alt="" /></li>
-                <li>
+                {/* <li>
                   <span className="doc-demo">hobbies     </span>
                   <img className="dcimg" id="hob-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'hobbies' }, 'Explorer', 'Miscellaneous')}
-                    src={require('./assets/icons/hobbies.png')} alt="" /></li>
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'hobbies' }, 'Explorer', 'Miscellaneous', "Hobbies")}
+                    src={require('./assets/icons/hobbies.png')} alt="" /></li> */}
                 <li>
                   <span className="doc-demo">connect     </span>
                   <img className="dcimg" id="con-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect', "Connect")}
                     src={require('./assets/icons/connect.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Gallery     </span>
                   <img className="dcimg" id="gal-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Explorer', 'Gallery')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'hobbies' }, 'Explorer', 'Miscellaneous', "Gallery")}
                     src={require('./assets/icons/gallery.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Resume      </span>
                   <img className="dcimg" id="res-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Resume')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Resume', "Resume")}
                     src={require('./assets/icons/resume.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Help?       </span>
                   <img className="dcimg" id="help-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Help', "Help")}
                     src={require('./assets/icons/help.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Contact     </span>
                   <img className="dcimg" id="cont-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Contact')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'files', wsData: null }, 'Terminal', 'Contact', "ContactMe")}
                     src={require('./assets/icons/contactme.png')} alt="" /></li>
                 <li>
                   <span className="doc-demo">Blogs       </span>
                   <img className="dcimg" id="blog-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: 'devtoblogs' }, 'Explorer', 'Connect', "Blogs")}
                     src={require('./assets/icons/blog.png')} alt="" /></li>
                 <li>
-                  <span className="doc-demo">ThinkBin    </span>
+                  <span className="doc-demo">Feedback    </span>
                   <img className="dcimg" id="thi-doc"
-                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Explorer', 'Thinkbin')}
+                    onClick={this.openWindow.bind(this, { wSubType: 'other', wsData: null }, 'Explorer', 'Feedback', "Feedback")}
                     src={require('./assets/icons/thinkbin.png')} alt="" /></li>
               </ul>
             </div>
@@ -508,7 +513,7 @@ class App extends Component {
 
   }
   // render file viewer
-  renderFile(id, ftype, fname) {
+  renderFile(id, ftype, fname, fStatus) {
     let Window = Windows[ftype]
     if (!ftype || !fname) {
       return (<div key={id}><Nowind /></div>)
@@ -516,12 +521,12 @@ class App extends Component {
     else {
       return (
         <div key={id + Number(Math.random())}>
-          <Window filename={fname} wid={id} dataExchange={this.todataExchange.bind(this)} />
+          <Window filename={fname} fileStatus={fStatus} wid={id} dataExchange={this.todataExchange.bind(this)} />
         </div>
       )
     }
   }
-  renderSelectedWindow(id, wtype, wdata, wfolders, wfiles) {
+  renderSelectedWindow(id, wtype, wdata, wname, wfolders, wfiles) {
     let Window = Windows[wtype]
     let tempoData;
     let tempcurrPath;
@@ -558,6 +563,7 @@ class App extends Component {
             currPath={tempcurrPath}
             winPos={tempwPos}
             windItem={wdata}
+            windName={wname}
             windowFiles={wfiles}
             windowFolders={wfolders}
             dataExchange={this.todataExchange.bind(this)} />

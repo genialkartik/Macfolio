@@ -53,12 +53,12 @@ export default class FileViewer extends Component {
     var filename = this.props.filename
     let fileUrl = './documents/' + filename.replace(/\s/g, '')
     var fileType = filename.substring(filename.indexOf('.') + 1, filename.length)
-    console.log(fileType)
+    console.log(this.props)
     return (
       <Draggable>
-        <div className="wind-con" id={windConId} 
-          style={{ left: Math.random()*100+350+'px', top: Math.random()*100+100+'px' }}
-        onClick={this.activeWindow.bind(this, this.props.wid)}>
+        <div className="wind-con" id={windConId}
+          style={{ left: Math.random() * 100 + 350 + 'px', top: Math.random() * 100 + 100 + 'px' }}
+          onClick={this.activeWindow.bind(this, this.props.wid)}>
           <div id="wind-up-tab">
             <ul>
               <li id="closetab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}>
@@ -71,19 +71,23 @@ export default class FileViewer extends Component {
           </div>
 
           <div id="wind-ter-conn">
-            {(fileType === 'pdf') &&
-              <div className="pdfviewer-container">
-                <PDFReader url={fileUrl} showAllPage="true" />
+            {(this.props.fileStatus) ?
+              <img style={{ position: 'absolute', height: '100%', objectFit: 'contain', left: '50%', transform: 'translate(-50%)' }}
+              src={'./documents/error401.png'} alt="error401" /> :
+              <div>
+                {(fileType === 'pdf') &&
+                  <div className="pdfviewer-container">
+                    <PDFReader url={fileUrl} showAllPage="true" />
+                  </div>
+                }
+                {(fileType !== 'pdf') &&
+                  <div >
+                    <img style={{ position: 'absolute', height: '100%', objectFit: 'contain', left: '50%', transform: 'translate(-50%)' }}
+                      src={fileUrl} alt="imageViewer" />
+                  </div>
+                }
               </div>
             }
-            {(fileType !== 'pdf') &&
-              <div >
-                <img style={{ position: 'absolute', height: '100%', objectFit: 'contain' , left: '50%', transform: 'translate(-50%)'}}
-                  src={fileUrl} alt="imageViewer" />
-              </div>
-            }
-
-
           </div>
         </div>
       </Draggable>

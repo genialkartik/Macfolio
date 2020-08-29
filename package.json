@@ -10,6 +10,7 @@
     "express-fileupload": "^1.1.7-alpha.4",
     "fs": "0.0.1-security",
     "mongoose": "^5.9.20",
+    "nodemailer": "^6.4.11",
     "path": "^0.12.7",
     "reactjs-pdf-reader": "^1.0.12",
     "recompose": "^0.30.0",
@@ -23,7 +24,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "kartik Tyagi",
   "license": "MIT"

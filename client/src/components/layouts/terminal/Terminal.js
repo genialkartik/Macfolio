@@ -1,6 +1,6 @@
 import React from 'react'
 import './terminal.css'
-import * as windData from '../../windows/index'
+import * as windData from '../../index'
 import Draggable from 'react-draggable'
 import $ from 'jquery'
 
@@ -60,13 +60,13 @@ class Terminal extends React.Component {
               <li id="minimztab" className="wintab" onClick={this.closeW.bind(this, this.props.wid)}></li>
               <li id="tabsize" className="wintab" onClick={this.resizeWindow.bind(this, this.props.wid)}></li>
               <li id="opnd-wind-icon-thumbnail" className="opndwintab"><img src={require('../../../assets/icons/help.png')} alt="Window" /></li>
-              <li className="opndwintab">{this.props.windItem}</li>
+              <li className="opndwintab">{this.props.windName}</li>
             </ul>
           </div>
 
           <div id="wind-ter-conn">
             <div className="wind-ter-container">
-              <Wdata />
+              <Wdata winData = {this.props}/>
             </div>
           </div>
         </div>
