@@ -12,7 +12,7 @@ const VisiData = new Schema({
     },
     VisitorName: {
         type: String,
-        required: true,
+        required: false,
         index:true, 
         unique:true,
         sparse:true

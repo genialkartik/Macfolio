@@ -7,15 +7,15 @@ export default (props) => (
       <div className="resum-dwnl-conn">
           <ul>
             <li><div className="rdc-inn rdcipdf">
-              <a download="portfolioCV.pdf" href="./documents" target="_blank" rel="noopener noreferrer"  >
+              <a download href="./documents/portfolioCV.pdf" target="_blank" rel="noopener noreferrer"  >
                 <img src={require('../../../assets/graphics/pdf logo.png')} alt=""/></a>
               </div></li>
             <li><div className="rdc-inn rdcidoc">
-              <a download="portfolio CV.docx" href="./documents" target="_blank" rel="noopener noreferrer" >
+              <a download href="./documents/portfolioCV.pdf" target="_blank" rel="noopener noreferrer" >
                 <img src={require('../../../assets/graphics/doc logo.png')} alt="" /></a>
               </div></li>
             <li><div className="rdc-inn rdcipng">
-              <a download="portfolio CV.png" href="./documents" target="_blank" rel="noopener noreferrer" >
+              <a download href="./documents/portfolioCV.pdf" target="_blank" rel="noopener noreferrer" >
                 <img src={require('../../../assets/graphics/png logo.png')} alt="" /></a>
               </div></li>
           </ul>

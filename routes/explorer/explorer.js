@@ -29,7 +29,6 @@ router.route('/file')
         console.error(err);
         return res.status(500).send(err);
       }
-      console.log('file uploaded')
       newFile.save()
         .then(item => res.json(item))
     })

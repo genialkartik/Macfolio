@@ -10,6 +10,12 @@ class Miscellaneous extends Component {
       <div className="miscell-container">
         {(wsdata === 'hobbies') &&
           <div className="galleryconn">
+            <li className="boximg proimg1">
+              <img src={'./gallery/1.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg2">
+              <img src={'./gallery/2.jpg'} alt="" />
+            </li>
             <li className="boximg proimg3">
               <img src={'./gallery/3.jpg'} alt="" />
             </li>
@@ -19,23 +25,53 @@ class Miscellaneous extends Component {
             <li className="boximg proimg3">
               <img src={'./gallery/5.jpg'} alt="" />
             </li>
+            <li className="boximg proimg1">
+              <img src={'./gallery/6.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg2">
+              <img src={'./gallery/7.png'} alt="" />
+            </li>
             <li className="boximg proimg3">
               <img src={'./gallery/8.jpg'} alt="" />
             </li>
             <li className="boximg proimg3">
               <img src={'./gallery/9.jpg'} alt="" />
             </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/10.jpg'} alt="" />
+            </li>
             <li className="boximg proimg1">
               <img src={'./gallery/11.jpg'} alt="" />
             </li>
+            <li className="boximg proimg2">
+              <img src={'./gallery/12.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/13.jpg'} alt="" />
+            </li>
             <li className="boximg proimg3">
               <img src={'./gallery/14.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/15.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/16.jpg'} alt="" />
             </li>
             <li className="boximg proimg1">
               <img src={'./gallery/17.jpg'} alt="" />
             </li>
             <li className="boximg proimg2">
               <img src={'./gallery/18.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/19.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/20.jpg'} alt="" />
+            </li>
+            <li className="boximg proimg3">
+              <img src={'./gallery/21.jpg'} alt="" />
             </li>
           </div>
         }

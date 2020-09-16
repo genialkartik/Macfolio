@@ -1,13 +1,12 @@
 
 import React, { Component } from 'react'
-// import axios from 'axios'
+import axios from 'axios'
 import * as windData from '../../index'
 
 import '../terminal/terminal.css'
 import './explorer.css'
 import Draggable from 'react-draggable'
 import $ from 'jquery'
-import compose from 'recompose/compose'
 import PropTypes from 'prop-types'
 
 import FolderIcon from '@material-ui/icons/Folder';
@@ -230,6 +229,7 @@ class Explorer extends Component {
       currentPath: tempCurrentPath,
       diffX: x.left,
       diffY: x.top,
+      zIdx: '100'
     })
   }
 
@@ -337,6 +337,7 @@ class Explorer extends Component {
   }
   windowBack(wid) {
     var x = $("#wc" + wid).position();
+    var zidx = 50;
     if (this.props.currPath.currentPath.length === 1) {
       return 1
     }
@@ -350,8 +351,10 @@ class Explorer extends Component {
         currPath: currPath,
         currentPath: newCurentPath,
         diffX: x.left,
-        diffY: x.top
+        diffY: x.top,
+        zIdx: zidx.toString()
       })
+      zidx++;
     }
   }
   fileUploadonChange = e => {
@@ -397,7 +400,7 @@ class Explorer extends Component {
         <div className="wind-con" id={windConId}
           style={(this.props.winPos) ?
             (this.state.activeWindowId === this.props.winPos.id) ?
-              { left: this.props.winPos.left, top: this.props.winPos.top } :
+              { left: this.props.winPos.left, top: this.props.winPos.top, zIndex: this.props.winPos.zIndex } :
               {}
             : {}
           }
@@ -541,12 +544,38 @@ class Explorer extends Component {
               >
                 {(this.state.rightClickedOn === null) &&
                   <MenuItem onClick={() => {
-                    alert('This feature is Disable till further Upgrade!')
+                    // alert('This feature is Disable till further Upgrade!')
+                    const newfoldername = prompt('Enter Folder Name')
+                    if (newfoldername) {
+                      this.setState({
+                        mouseX: null,
+                        mouseY: null,
+                      })
+                      axios.post('/explorer/folder', {
+                        fname: newfoldername,
+                        ftype: 'folder',
+                        fsize: 0,
+                        fpath: this.props.currPath.currentPath.toString().replace(/,/g, '/')
+                      })
+                        .then(res => {
+                          this.props.dataExchange({
+                            waction: 'createFolder',
+                            wid: this.props.wid,
+                            folderitems: res.data
+                          })
+                        }
+                        )
+                    }
                   }
                   }>Create folder</MenuItem>
                 }
                 <MenuItem onClick={() => {
-                  alert('This feature is Disable till further Upgrade!')
+                  // alert('This feature is Disable till further Upgrade!')
+                  this.setState({
+                    mouseX: null,
+                    mouseY: null,
+                    uploadfileOpen: true
+                  })
                 }}>Upload file</MenuItem>
                 <Modal
                   open={this.state.uploadfileOpen}
@@ -564,7 +593,17 @@ class Explorer extends Component {
                 <MenuItem onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Aboutme', "AboutMe")}>About Me</MenuItem>
                 {(this.state.rightClickedOn != null) &&
                   <MenuItem onClick={() => {
-                    alert('This feature is Disable till further Upgrade!')
+                    this.props.dataExchange({
+                      waction: 'deleteF',
+                      wid: this.props.wid,
+                      fType: this.state.selectType,
+                      fid: this.state.rightClickedOn
+                    })
+                    this.setState({
+                      mouseX: null,
+                      mouseY: null,
+                      rightClickedOn: null
+                    });
                   }}>Delete</MenuItem>
                 }
               </Menu>
@@ -575,6 +614,4 @@ class Explorer extends Component {
     )
   }
 }
-export default compose(
-  withStyles(styles, { withTheme: true })
-)(Explorer)
+export default withStyles(styles, { withTheme: true })(Explorer)

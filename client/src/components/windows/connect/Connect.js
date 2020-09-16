@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
+import DevDotTo from 'react-devdotto'
 import { TwitterTimelineEmbed, TwitterFollowButton } from 'react-twitter-embed';
 import InstagramEmbed from 'react-instagram-embed';
 import { Github } from 'react-social-github';
@@ -8,7 +9,6 @@ import { StackOverflowProfile } from "react-stackoverflow-card";
 import "react-stackoverflow-card/dist/index.css";
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import LinkIcon from '@material-ui/icons/Link';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -36,28 +36,6 @@ const styles = theme => ({
 })
 
 class Connect extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      articles: [],
-    }
-  }
-  callApi = (username = 'genialkartik') => {
-    fetch(`https://dev.to/api/articles?username=${username}`)
-      .then((result) => {
-        // Get the result
-        // If we want text, call result.text()
-        return result.json();
-      }).then((jsonResult) => {
-        // Do something with the result
-        this.setState({ articles: jsonResult })
-      })
-  }
-
-  componentDidMount() {
-    this.callApi(this.props.username);
-  }
 
   render() {
     const wsdata = this.props.wsData
@@ -128,12 +106,14 @@ class Connect extends Component {
             <br />
             <br />
             <ul>
+              <li><Github user="genialkartik" repo="100daysofcode" type="widget"></Github></li>
               <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
-              <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
-              <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
-              <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
-              <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
-              <li><Github user="genialkartik" repo="macfolio" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="react-devdotto" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="Blog-Socketio" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="FileStream-handling" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="Traflow" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="genialkartik.github.io" type="widget"></Github></li>
+              <li><Github user="genialkartik" repo="Phishing-Detector" type="widget"></Github></li>
             </ul>
           </div>
         }
@@ -175,38 +155,13 @@ class Connect extends Component {
           </div>
         }
         {(wsdata === 'devtoblogs') &&
-          <div className="mediumpro-container">
-            <div>
-              <div className="devcontainer">
-                {this.state.articles.map(
-                  item =>
-                      <div className="item" key={item.id}>
-                        <h1 className="heading"><strong>{item.title}</strong></h1>
-                        {item.cover_image ?
-                          <img className="devblogimg" src={item.cover_image} alt="dev.to" /> :
-                          <div className="description">
-                            <h3>{item.description}</h3>
-                          </div>
-                        }
-                        <p>{
-                            item.tag_list.map((tag)=>{
-                              return "  #"+tag
-                            })
-                          }</p><br/>
-                        <div className="icons">
-                          <p><FavoriteIcon />{item.positive_reactions_count+100}</p>
-                          <a href={item.canonical_url} className="open"><p><LinkIcon /></p></a>
-                        </div>
-                      </div>
-                )}
-              </div>
-            </div>
+          <div className="devto-container">
+            <DevDotTo username="genialkartik" />
           </div>
         }
       </div >
-
     )
   }
 }
 
-export default (withStyles(styles, {withTheme: true}))(Connect)
+export default (withStyles(styles, { withTheme: true }))(Connect)

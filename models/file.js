@@ -18,6 +18,10 @@ const FileSchema = new Schema({
         type: String,
         required: true
     },
+    fileStatus: {
+        type: Boolean,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now

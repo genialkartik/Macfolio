@@ -53,7 +53,6 @@ export default class FileViewer extends Component {
     var filename = this.props.filename
     let fileUrl = './documents/' + filename.replace(/\s/g, '')
     var fileType = filename.substring(filename.indexOf('.') + 1, filename.length)
-    console.log(this.props)
     return (
       <Draggable>
         <div className="wind-con" id={windConId}
