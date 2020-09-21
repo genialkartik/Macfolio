@@ -4,6 +4,7 @@
     height: 100%;
 	margin:  0 auto;
 	display: flex;
+	overflow: hidden;
 	display: -webkit-flex;
 	justify-content: center;
 	-o-justify-content: center;

@@ -6,11 +6,37 @@
     top:0px;
     z-index: 10;
   }
-#wul-conn img{
-    width: 100%;
-    height: 30px;
-    cursor: pointer;
-  }
+.wul-conn{
+  position: relative;
+  width: 100%;
+  height: 30px;
+  background-color: rgb(53, 52, 52);
+  cursor: pointer;
+}
+.wul-conn ul li {
+  float: left;
+  list-style: none;
+  width: 33.33%;
+}
+.wul-conn ul li img{
+  position: relative;
+  height: 30px;
+}
+.wbackleft{
+  width: 100px;
+  left: 0;
+}
+.wbackmid{
+  position: relative;
+  width: 500px;
+  transform: translate(20%);
+}
+.wbackright{
+  position: relative;
+  width: 250px;
+  right: -5%;
+}
+
 .wdt-left{
     position: absolute;
     top:0; left: 0;
@@ -38,8 +64,9 @@
   #pl-id ul li{
     cursor: pointer;
   }
-  ul li{
+  .fileContainer ul li{
      list-style: none;
+     float: left;
   }
   .llc{
     position: relative;
@@ -53,6 +80,12 @@
     font-size: 1em;
     left: 30px;
   }
+
+  .task1{
+    position: relative;
+    left: 15%;
+    top: 50%;
+  }
   
   .wdt-right{
     position: absolute;
@@ -64,4 +97,39 @@
     background: rgba(39, 39, 39);
     z-index: 8;
   }
+
+  .wdt-right::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.wdt-right {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
   
+
+  .fileContainer {
+    position:absolute;
+  }
+  .fileContainer ul li {
+    width:160px;
+    height:200px;
+    word-wrap: break-word;
+    margin-right:10px;
+    text-align:center;
+    float:left;
+  }
+  .foldername {
+    position:relative;
+    color:white;
+    border-radius: 3px;
+    padding: 0px 5px;
+  }
+  .foldericonselect {
+    filter:brightness(70%);
+  }
+  .foldernameselect{
+    background-color: dodgerblue;
+  }
+

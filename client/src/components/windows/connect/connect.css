@@ -1,0 +1,42 @@
+.subtype-container {
+    position: relative;
+}
+.embed-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translate(25%);
+}
+.githubsocial-container ul li {
+    position: relative;
+    float: left;
+    transform: translate(none);
+    margin: 8px;
+    height: 420px;
+    list-style: none;
+}
+.githubprofile-card {
+    position: relative;
+    left: 0%;
+    transform: translate(34%);
+}
+.devto-container{
+    position: relative;
+    padding-left: 40px;
+}
+.rsg-github{
+    position: relative;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.rsg-github::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.rsg-github {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+  

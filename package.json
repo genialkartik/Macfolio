@@ -5,19 +5,30 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "concurrently": "^5.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.20"
+    "express-fileupload": "^1.1.7-alpha.4",
+    "fs": "0.0.1-security",
+    "helmet": "^4.1.0",
+    "helmet-csp": "^3.1.0",
+    "mongoose": "^5.9.20",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.11",
+    "path": "^0.12.7",
+    "systeminformation": "^4.26.10"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "nodemon": "^2.0.4"
   },
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "server": "nodemon server.js",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "kartik Tyagi",
   "license": "MIT"

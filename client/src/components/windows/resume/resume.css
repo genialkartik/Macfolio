@@ -15,6 +15,7 @@
     margin: 10px;
     margin-right: 40px;
     cursor: pointer;
+    list-style: none;
   }
   .resum-dwnl-conn ul li:hover a img{
     transform: scale(1.3);

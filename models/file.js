@@ -2,24 +2,30 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const FileSchema = new Schema({
-    filename: {
+    fileName: {
         type: String,
         required: true
     },
-    filetype: {
+    itemType: {
         type: String,
         required: true
     },
-    filesize: {
+    fileSize: {
         type: Number,
         required: true
     },
-    filelocation: {
+    filePath: {
         type: String,
         required: true
+    },
+    fileStatus: {
+        type: Boolean,
+        default: false
     },
     date: {
         type: Date,
         default: Date.now
     }
 })
+
+module.exports = File = mongoose.model('files', FileSchema)

@@ -45,18 +45,24 @@
     list-style: none;
     position: relative;
     top: 2px;
+    margin: 0px 10px;
+  }
+
+  .abo-doc:hover,
+  .onHover:hover {
+    cursor: pointer;
   }
   
   #udr-id ul li span{
     position: relative;
-    font-size:.86em;
-    top:-1px;
+    font-size:1em;
+    top:-2px;
   }
   #udr-id ul li img{
     position: relative;
     width: 21px;
     height: 21px;
-    margin: 0px 13px;
+    margin: 0px 10px;
   }
 
   
