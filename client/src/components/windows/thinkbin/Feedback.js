@@ -125,7 +125,7 @@ class Feedback extends Component {
     formData.append('name', this.state.feederName)
     formData.append('message', this.state.feederMessage)
     formData.append('star', this.state.feederStar)
-    axios.post(`https://macfolio.herokuapp.com//feedback/show`, formData)
+    axios.post(`/feedback/show`, formData)
       .then(res => {
         this.setState({
           feedback: [...this.state.feedback, res.data]

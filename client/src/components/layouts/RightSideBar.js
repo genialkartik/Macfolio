@@ -116,7 +116,7 @@ class RightSideBar extends Component {
               <span>Visitor's Count</span>
             </div>
             <div className="rnb-vc">
-              <a className="hitCounter" href="https://kartiktyagi.me/" target="_blank" rel="noopener noreferrer">
+              <a className="hitCounter" href="https://kartiktyagi.codes/" target="_blank" rel="noopener noreferrer">
                 <img src="https://www.webfreecounter.com/hit.php?id=geuxfkkn&nd=6&style=12" border="0" alt="web counter" />
               </a>
             </div>
