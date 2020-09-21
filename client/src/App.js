@@ -49,7 +49,7 @@ class App extends Component {
       // data & info send to Explorer and subExplorer
       otherData: [],
       // system information
-      sysInfo: [],
+      sysInfo: [false, 59],
       // current Path 
       currPath: [],
       // window position
@@ -57,7 +57,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    axios.get('/visidata')
+    axios.get('https://macfolio.herokuapp.com/visidata')
       .then(res => {
         this.setState({
           sysInfo: res.data
@@ -74,8 +74,7 @@ class App extends Component {
           {
             id: returnData.wid,
             left: returnData.diffX,
-            top: returnData.diffY,
-            zIndex: returnData.zIdx
+            top: returnData.diffY
           })
       }
     })
@@ -121,7 +120,7 @@ class App extends Component {
     }
     // open Folder
     if (returnData.waction === 'openFolder') {
-      axios.get('/explorer/folder', { params: { wpath: returnData.currPath } })
+      axios.get('https://macfolio.herokuapp.com/explorer/folder', { params: { wpath: returnData.currPath } })
         .then(res => {
           var items = res.data
           var folders = items.filter(item => item.itemType === 'folder')
@@ -206,7 +205,7 @@ class App extends Component {
     }
     if (returnData.waction === 'deleteF') {
       if (returnData.fType === 'folder') {
-        axios.delete(`explorer/folder`, { params: { delId: returnData.fid } })
+        axios.delete(`https://macfolio.herokuapp.com/explorer/folder`, { params: { delId: returnData.fid } })
           .then(
             this.setState(state => {
               // eslint-disable-next-line
@@ -221,7 +220,7 @@ class App extends Component {
             })
           )
       } else {
-        axios.delete(`explorer/file`, { params: { delId: returnData.fid } })
+        axios.delete(`https://macfolio.herokuapp.com/explorer/file`, { params: { delId: returnData.fid } })
           .then(
             this.setState(state => {
               // eslint-disable-next-line
@@ -238,7 +237,7 @@ class App extends Component {
       }
     }
     if (returnData.waction === 'uploadItem') {
-      axios.post(`/explorer/file`, returnData.formdata)
+      axios.post(`https://macfolio.herokuapp.com/explorer/file`, returnData.formdata)
         .then(res => (
           this.setState(state => {
             // eslint-disable-next-line
@@ -268,7 +267,7 @@ class App extends Component {
       this.setState({ windowId: this.state.windowId + 1 })
       this.winPos(returnData);
     }
-    if (returnData.waction === 'openWindow') {
+    if(returnData.waction === 'openWindow') {
       this.openWindow(returnData.otherdata, returnData.wtype, returnData.wdata, returnData.wname)
     }
   }
@@ -287,11 +286,11 @@ class App extends Component {
       }))
 
     } else {
-      axios.get('/explorer/folder', { params: { wpath: wdata } })
+      axios.get('https://macfolio.herokuapp.com/explorer/folder', { params: { wpath: wdata } })
         .then(res => {
-          var items = res.data
-          var folders = items.filter(item => item.itemType === 'folder')
-          var files = items.filter(item => item.itemType !== 'folder')
+          let items = res.data
+          let folders = items.filter(item => item.itemType === 'folder')
+          let files = items.filter(item => item.itemType !== 'folder')
           this.setState(state => ({
             windowItems: [...state.windowItems, {
               id: this.state.windowId,

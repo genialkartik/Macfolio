@@ -13,7 +13,6 @@ import Rating from '@material-ui/lab/Rating';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-// import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
@@ -126,8 +125,7 @@ class Feedback extends Component {
     formData.append('name', this.state.feederName)
     formData.append('message', this.state.feederMessage)
     formData.append('star', this.state.feederStar)
-    // formData.append('image', this.state.feederImage)
-    axios.post(`/feedback/show`, formData)
+    axios.post(`https://macfolio.herokuapp.com//feedback/show`, formData)
       .then(res => {
         this.setState({
           feedback: [...this.state.feedback, res.data]
@@ -161,8 +159,6 @@ class Feedback extends Component {
               <h3>Thanks for enlightening me with your valuable feedback!</h3><br />
               <TextField id="basic1" label="Your Name" variant="outlined" name="feederName"
                 onChange={this.feedbackDetail.bind(this)} /><br /><br />
-              {/* <p>Upload any memory together or just upload your Avatar (image)!</p><br />
-              <input type="file" id="feederImage" onChange={this.fileUpload.bind(this)} /><br /><br /> */}
               <TextField id="basic3" type="number" label="Rating (1-5)" variant="outlined" name="feederStar"
                 onChange={this.feedbackDetail.bind(this)} /><br /><br />
               <TextField id="basic4" label="Message" multiline rows={5} columns={8} name="feederMessage"
@@ -189,12 +185,6 @@ class Feedback extends Component {
                       IconContainerComponent={IconContainer}
                     />}
                   />
-                    
-                  {/* <CardMedia
-                    className={classes.media}
-                    image={'./feedback/' + ProfilePic}
-                    title="Thank Buddy"
-                  /> */}
                   <CardContent>
                     <Typography variant="body2" color="textSecondary" component="div" style={{ color: '#fff' }}>
                       {(this.state.expanded) ?

@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react'
-import axios from 'axios'
 import * as windData from '../../index'
 
 import '../terminal/terminal.css'
@@ -544,38 +543,12 @@ class Explorer extends Component {
               >
                 {(this.state.rightClickedOn === null) &&
                   <MenuItem onClick={() => {
-                    // alert('This feature is Disable till further Upgrade!')
-                    const newfoldername = prompt('Enter Folder Name')
-                    if (newfoldername) {
-                      this.setState({
-                        mouseX: null,
-                        mouseY: null,
-                      })
-                      axios.post('/explorer/folder', {
-                        fname: newfoldername,
-                        ftype: 'folder',
-                        fsize: 0,
-                        fpath: this.props.currPath.currentPath.toString().replace(/,/g, '/')
-                      })
-                        .then(res => {
-                          this.props.dataExchange({
-                            waction: 'createFolder',
-                            wid: this.props.wid,
-                            folderitems: res.data
-                          })
-                        }
-                        )
-                    }
+                    alert('This feature is Disable till further Upgrade!')
                   }
                   }>Create folder</MenuItem>
                 }
                 <MenuItem onClick={() => {
-                  // alert('This feature is Disable till further Upgrade!')
-                  this.setState({
-                    mouseX: null,
-                    mouseY: null,
-                    uploadfileOpen: true
-                  })
+                  alert('This feature is Disable till further Upgrade!')
                 }}>Upload file</MenuItem>
                 <Modal
                   open={this.state.uploadfileOpen}
@@ -593,17 +566,7 @@ class Explorer extends Component {
                 <MenuItem onClick={this.openWindowAlt.bind(this, this.props.wid, 'Terminal', 'Aboutme', "AboutMe")}>About Me</MenuItem>
                 {(this.state.rightClickedOn != null) &&
                   <MenuItem onClick={() => {
-                    this.props.dataExchange({
-                      waction: 'deleteF',
-                      wid: this.props.wid,
-                      fType: this.state.selectType,
-                      fid: this.state.rightClickedOn
-                    })
-                    this.setState({
-                      mouseX: null,
-                      mouseY: null,
-                      rightClickedOn: null
-                    });
+                    alert('This feature is Disable till further Upgrade!')
                   }}>Delete</MenuItem>
                 }
               </Menu>

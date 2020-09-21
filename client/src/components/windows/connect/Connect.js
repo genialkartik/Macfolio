@@ -92,12 +92,6 @@ class Connect extends Component {
             />
           </div>
         }
-        { // (wsdata === 'linkedin') &&
-          // <div>
-          //  <div className="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="vertical" data-theme="dark" data-vanity="genial-kartik">
-          //    <a className="LI-simple-link" href='https://in.linkedin.com/in/genial-kartik?trk=profile-badge'>Kartik Tyagi</a></div>
-          // </div>
-        }
         {(wsdata === 'githubprofile') &&
           <div className="githubsocial-container">
             <div className="githubprofile-card">

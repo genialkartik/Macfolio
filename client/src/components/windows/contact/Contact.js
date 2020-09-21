@@ -22,7 +22,7 @@ export default class Contact extends Component {
     formData.append('cemail', this.state.cemail)
     formData.append('csubject', this.state.csubject)
     formData.append('cmessage', this.state.cmessage)
-    axios.post(`/contact`, formData)
+    axios.post(`https://macfolio.herokuapp.com//contact`, formData)
       .then(res => {
         if (res.data.send === true) {
           this.setState({ sending: false, sent: true })
