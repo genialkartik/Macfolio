@@ -57,7 +57,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    axios.get('https://macfolio.herokuapp.com/visidata')
+    axios.get('visidata')
       .then(res => {
         this.setState({
           sysInfo: res.data
@@ -120,7 +120,7 @@ class App extends Component {
     }
     // open Folder
     if (returnData.waction === 'openFolder') {
-      axios.get('https://macfolio.herokuapp.com/explorer/folder', { params: { wpath: returnData.currPath } })
+      axios.get('/explorer/folder', { params: { wpath: returnData.currPath } })
         .then(res => {
           var items = res.data
           var folders = items.filter(item => item.itemType === 'folder')
@@ -205,7 +205,7 @@ class App extends Component {
     }
     if (returnData.waction === 'deleteF') {
       if (returnData.fType === 'folder') {
-        axios.delete(`https://macfolio.herokuapp.com/explorer/folder`, { params: { delId: returnData.fid } })
+        axios.delete(`/explorer/folder`, { params: { delId: returnData.fid } })
           .then(
             this.setState(state => {
               // eslint-disable-next-line
@@ -220,7 +220,7 @@ class App extends Component {
             })
           )
       } else {
-        axios.delete(`https://macfolio.herokuapp.com/explorer/file`, { params: { delId: returnData.fid } })
+        axios.delete(`/explorer/file`, { params: { delId: returnData.fid } })
           .then(
             this.setState(state => {
               // eslint-disable-next-line
@@ -237,7 +237,7 @@ class App extends Component {
       }
     }
     if (returnData.waction === 'uploadItem') {
-      axios.post(`https://macfolio.herokuapp.com/explorer/file`, returnData.formdata)
+      axios.post(`/explorer/file`, returnData.formdata)
         .then(res => (
           this.setState(state => {
             // eslint-disable-next-line
@@ -286,7 +286,7 @@ class App extends Component {
       }))
 
     } else {
-      axios.get('https://macfolio.herokuapp.com/explorer/folder', { params: { wpath: wdata } })
+      axios.get('/explorer/folder', { params: { wpath: wdata } })
         .then(res => {
           let items = res.data
           let folders = items.filter(item => item.itemType === 'folder')
