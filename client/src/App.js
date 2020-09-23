@@ -57,7 +57,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    axios.get('visidata')
+    axios.get('/visidata')
       .then(res => {
         this.setState({
           sysInfo: res.data
