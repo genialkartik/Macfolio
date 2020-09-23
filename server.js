@@ -4,9 +4,7 @@ const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const path = require('path')
 const app = express()
-const csp = require(`helmet-csp`)
 const cors = require('cors');
-const helmet = require('helmet');
 const config = require('./config/key');
 const morgan = require('morgan');
 
@@ -15,20 +13,6 @@ const explorers = require('./routes/explorer/explorer')
 const feedbacks = require('./routes/explorer/feedback')
 
 const port = process.env.PORT || 2050
-
-app.use(csp({
-  directives: {
-    defaultSrc: [`'self'`],
-    scriptSrc: [`'self'`],
-    styleSrc: [`'self'`],
-    mediaSrc: [`'self'`],
-    reportUri: [`'self'`],
-    objectSrc: [`'self'`]
-  }
-}))
-
-// Helmet helps you secure your Express apps by setting various HTTP headers. 
-app.use(helmet())
 
 // CORS Middleware
 app.use(cors());
