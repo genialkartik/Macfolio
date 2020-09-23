@@ -7,6 +7,7 @@ const app = express()
 const csp = require(`helmet-csp`)
 const cors = require('cors');
 const helmet = require('helmet');
+const config = require('./config/key');
 const morgan = require('morgan');
 
 const visiapi = require('./routes/api/visiapi')
@@ -43,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 
-mongoose.connect('', {
+mongoose.connect(process.env.MONGODB_URI || config.mongoURI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true

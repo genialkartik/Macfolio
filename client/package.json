@@ -51,5 +51,5 @@
   "devDependencies": {
     "http-proxy-middleware": "^1.0.5"
   },
-  "proxy": "http://localhost:2020"
+  "proxy": "http://157.245.109.147/"
 }
