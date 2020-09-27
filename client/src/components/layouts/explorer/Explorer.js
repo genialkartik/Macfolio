@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import * as windData from '../../index'
+// import axios from 'axios'
 
 import '../terminal/terminal.css'
 import './explorer.css'
@@ -520,7 +521,7 @@ class Explorer extends Component {
                             onDoubleClick={this.openFile.bind(this, 'FileViewer', this.props.wid, fileName, fileStatus)}>
                             <div id={_id + "icon"}>
                               <InsertDriveFileIcon className={classes.foldericon} /></div>
-                            <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
+                            <label id={_id + "name"} className={"foldername"}>{fileName.substring(0,fileName.indexOf('.'))}</label></li>
                         ))
                       }
                     </ul>
@@ -573,7 +574,7 @@ class Explorer extends Component {
             </div>
           </div>
         </div >
-      </Draggable>
+      </Draggable >
     )
   }
 }
