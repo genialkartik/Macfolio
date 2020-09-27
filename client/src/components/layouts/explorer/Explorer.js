@@ -521,7 +521,7 @@ class Explorer extends Component {
                             onDoubleClick={this.openFile.bind(this, 'FileViewer', this.props.wid, fileName, fileStatus)}>
                             <div id={_id + "icon"}>
                               <InsertDriveFileIcon className={classes.foldericon} /></div>
-                            <label id={_id + "name"} className={"foldername"}>{fileName}</label></li>
+                            <label id={_id + "name"} className={"foldername"}>{fileName.substring(0,fileName.indexOf('.'))}</label></li>
                         ))
                       }
                     </ul>

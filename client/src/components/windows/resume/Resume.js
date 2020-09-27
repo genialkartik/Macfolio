@@ -21,7 +21,7 @@ export default (props) => (
           </ul>
       </div>
       <div className="resume-conn" id="resum-conn">
-        <PDFReader url={'./documents/portfolioCV.pdf'} showAllPage="true" />
+        <PDFReader url={'./documents/portfolioCV.jpg'} showAllPage="true" />
       </div>
     </div>
 );
