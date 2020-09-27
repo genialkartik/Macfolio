@@ -46,8 +46,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "http-proxy-middleware": "^1.0.5"
-  },
+  "devDependencies": {},
   "proxy": "http://157.245.109.147"
 }

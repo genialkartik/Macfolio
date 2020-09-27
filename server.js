@@ -5,14 +5,13 @@ const fileUpload = require('express-fileupload')
 const path = require('path')
 const app = express()
 const cors = require('cors');
-const config = require('./config/key');
 const morgan = require('morgan');
 
 const visiapi = require('./routes/api/visiapi')
 const explorers = require('./routes/explorer/explorer')
 const feedbacks = require('./routes/explorer/feedback')
 
-const port = process.env.PORT || 2050
+const port = process.env.PORT || 80
 
 // CORS Middleware
 app.use(cors());
@@ -28,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 
-mongoose.connect(process.env.MONGODB_URI || config.mongoURI, {
+mongoose.connect('mongo_URI', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
@@ -42,7 +41,9 @@ app.use('/visidata', visiapi)
 app.use('/explorer', explorers)
 app.use('/feedback', feedbacks)
 
-
+if (typeof window !== 'undefined') {
+    window.React = React;
+}
 
 app.use(express.static(path.join(__dirname, "client/build")))
 app.get('*', (req, res) => {

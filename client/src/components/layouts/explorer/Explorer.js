@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import * as windData from '../../index'
+// import axios from 'axios'
 
 import '../terminal/terminal.css'
 import './explorer.css'
@@ -573,7 +574,7 @@ class Explorer extends Component {
             </div>
           </div>
         </div >
-      </Draggable>
+      </Draggable >
     )
   }
 }
