@@ -4,13 +4,24 @@ Macfolio is a Project, initiated as a Personal Portfolio website but It is much 
 # How to use it
 * Clone the project 
 * Get to project directory
-* To start the app use
+* Install dependencies:
+```
+npm install
+cd client
+npm install
+```
+* To start server: `npm start`
 ```
 "start": "node server.js",
 ```
-* Run app in dev mode
+* Run app in dev mode: `npm run dev`
 ```
 "dev": "nodemon server.js"
+```
+* Run Client:
+```
+cd client
+npm start
 ```
 
 ## version 
