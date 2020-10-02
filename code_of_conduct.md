@@ -45,4 +45,4 @@ This Code of Conduct is adapted from the Contributor Covenant, version 1.4, avai
 For answers to common questions about this code of conduct, see https://www.contributor-covenant.org/faq
 
 
-<p align = "center"><img src = "https://media.giphy.com/media/STYTqQwvFmecuW5HuE/giphy.gif" width = 50% height = 100%></p>
+<p align = "center"><img src = "https://media.giphy.com/media/j6SOLjGu7VQJD8t8rO/giphy.gif" width = 50% height = 100%></p>
