@@ -380,8 +380,8 @@ class App extends Component {
                     <li><div id="">{date.format(now, 'ddd hh:mm A')}</div></li>
                     {
                       this.state.sysInfo[0] ?
-                        <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryChargingFullIcon /></li> :
-                        <li style={{ rotate: '90deg', marginLeft: '-5px', marginTop: '-3px' }}><BatteryStdIcon /></li>
+                        <li style={{ rotate: '90deg', margin: '0px' }}><BatteryChargingFullIcon /></li> :
+                        <li style={{ rotate: '90deg', margin: '0px' }}><BatteryStdIcon /></li>
                     }
                     <li><span>{this.state.sysInfo[1] ? this.state.sysInfo[1] : 55}%</span></li>
                     <li><WifiIcon /></li>
