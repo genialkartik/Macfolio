@@ -31,23 +31,26 @@ npm install
 
 -   To start server:
 
-````bash
-npm start```
+```bash
+npm start
+```
 Run app in dev mode:
 
 ```bash
-npm run dev```
+npm run dev
+```
 
 Run Client:
 
 ```bash
 cd client
-npm start```
+npm start
+```
 
 ##  📁 File Structure
 - Add a file structure here with the basic details about files, below is current file structure.
 
-````
+```
 
 └── Client <br>
 ├── Public <br>
