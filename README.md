@@ -4,7 +4,7 @@
 
 </div>
 
-## 📒 Index
+** 📒 Index **
 
 [TOC]
 
@@ -21,14 +21,17 @@ Clone the project
 Get to project directory
 Install dependencies:
 
-````bash
+```bash
 npm install
 cd client
-npm install```
-###   📁 Commands
-- To start server:
+npm install
+```
 
-```bash
+### 📁 Commands
+
+-   To start server:
+
+````bash
 npm start```
 Run app in dev mode:
 
