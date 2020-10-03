@@ -4,7 +4,7 @@
 
 </div>
 
-** 📒 Index **
+**📒 Index**
 
 [TOC]
 
