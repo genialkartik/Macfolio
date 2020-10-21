@@ -4,10 +4,6 @@
 
 </div>
 
-**📒 Index**
-
-[TOC]
-
 ## 🔰 About
 
 Macfolio is a Project, initiated as a Personal Portfolio website but It is much more than that.
@@ -99,6 +95,5 @@ npm start
 
 ##  🔒 License
 [![License](https://img.shields.io/github/license/genialkartik/Macfolio?style=for-the-badge)](https://github.com/genialkartik/Macfolio/blob/master/LICENSE)
-```
 
-
+MIT © 2020 [Kartik Tyagi](https://kartiktyagi.codes)
