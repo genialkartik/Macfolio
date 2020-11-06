@@ -4,9 +4,9 @@
 
 </div>
 
-## 🔰 About
+## 🔰 An Insight
 
-Macfolio is my visionary project and I initiated this project as Personal Portfolio website. But it is much more than that. The Vision behind this project is to create a futuristic OS which will entirely work on/upon Cloud. Also, the use cases and outcome are endless, it'll be helpful to work using AR (Augmented Reality) and VR (Virtual Reality). Think it like - You can code or do whatever you do on laptop/PC by wearing glasses only (something like this: Instagram ). Sounds fascinating but improbable, right! 
+Macfolio is my visionary project and I initiated this project as Personal Portfolio website. But it is much more than that. The Vision behind this project is to create a futuristic OS which will entirely work on/upon Cloud. Also, the use cases and outcome are endless, it'll be helpful to work using AR (Augmented Reality) and VR (Virtual Reality). Think it like - You can code or do whatever you do on laptop/PC by wearing glasses only (something like this: Instagram ). Sounds fascinating but improbable, right! <br>
 This project will also be helpful in getting rid of carrying bulky hardware devices and their unbearable costs. The used cases of this project are boundless.
 
 ### Installation Requirements: 
