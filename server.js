@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 
-mongoose.connect('', {
+mongoose.connect('mongodb+srv://genialkartik:genialkartik@macfolio.cpjed.mongodb.net/macfolio', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
