@@ -12,17 +12,16 @@
       float: right;
       right: 0;
       width: 0;
-      height: calc(100% - 8.5% - 25px);;
-      top: 25px;
+      height: 97%;
+      top: 2.5%;
       background: #999;
       z-index: 5;
-      overflow: hidden;
     }
     .rnb-container{
       position: relative;
       width: 90%;
-      height: calc(100% - 25px);
-      margin: 0 5%;
+      height: 90%;
+      margin: 5% 5%;
       background: none;
       overflow-x: scroll;
       overflow-y: hidden;
@@ -36,7 +35,7 @@
         border-radius: 10px;
         background: #666;
         text-align: center;
-        margin-top: 25px;
+        margin-top: 40px;
     }
     .rnb-note{
       position: relative;
@@ -58,7 +57,7 @@
     .rnb-chs-bdimg{
       position: absolute;
       width: 95%;
-      height: 156px;
+      height: 100%;
       margin: 0px 8px;
       overflow-y: scroll;
       scrollbar-width: none;

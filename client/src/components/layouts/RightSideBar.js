@@ -63,7 +63,7 @@ $(document).ready(function () {
     var rnbidper = parseInt(rnbid.css("width"));
     var t = Math.ceil(rnbidper);
     if (t <= 0) {
-      rnbid.animate({ width: "225px" });
+      rnbid.animate({ width: "17%" });
     }
     else {
       rnbid.animate({ width: "0%" });

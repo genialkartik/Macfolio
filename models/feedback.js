@@ -14,6 +14,10 @@ const FeedbackSchema = new Schema({
         type: Number,
         required: true
     },
+    ImageName: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now
