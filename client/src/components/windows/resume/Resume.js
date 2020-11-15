@@ -21,7 +21,7 @@ export default (props) => (
       </ul>
     </div>
     <div className="resume-conn" id="resum-conn">
-      <img src={require('./portfolioCV.jpg')} />
+      <img src={require('./portfolioCV.jpg')} alt="portfolio"/>
       {/* <PDFReader url={'./portfolioCV.jpg'} showAllPage="true" /> */}
     </div>
   </div>

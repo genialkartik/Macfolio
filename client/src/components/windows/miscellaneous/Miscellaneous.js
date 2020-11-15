@@ -29,7 +29,7 @@ class Miscellaneous extends Component {
               <img src={'./gallery/6.jpg'} alt="" />
             </li>
             <li className="boximg proimg2">
-              <img src={'./gallery/7.png'} alt="" />
+              <img src={'./gallery/7.jpg'} alt="" />
             </li>
             <li className="boximg proimg3">
               <img src={'./gallery/8.jpg'} alt="" />

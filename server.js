@@ -11,7 +11,7 @@ const visiapi = require('./routes/api/visiapi')
 const explorers = require('./routes/explorer/explorer')
 const feedbacks = require('./routes/explorer/feedback')
 
-const port = process.env.PORT || 80
+const port = process.env.PORT || 2020
 
 // CORS Middleware
 app.use(cors());
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 
-mongoose.connect('mongodb+srv://genialkartik:genialkartik@macfolio.cpjed.mongodb.net/macfolio', {
+mongoose.connect('', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true

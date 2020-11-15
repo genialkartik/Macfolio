@@ -20,6 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
+import CardMedia from '@material-ui/core/CardMedia';
 import './feedback.css'
 
 let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -125,6 +126,7 @@ class Feedback extends Component {
     formData.append('name', this.state.feederName)
     formData.append('message', this.state.feederMessage)
     formData.append('star', this.state.feederStar)
+    formData.append('image', this.state.feederImage)
     axios.post(`/feedback/show`, formData)
       .then(res => {
         this.setState({
@@ -158,11 +160,13 @@ class Feedback extends Component {
             <form className="form-detail" onSubmit={this.sendFeedback.bind(this)} encType="mulitpart/form-data">
               <h3>Thanks for enlightening me with your valuable feedback!</h3><br />
               <TextField id="basic1" label="Your Name" variant="outlined" name="feederName"
-                onChange={this.feedbackDetail.bind(this)} /><br /><br />
+                onChange={this.feedbackDetail.bind(this)} required /><br /><br />
               <TextField id="basic3" type="number" label="Rating (1-5)" variant="outlined" name="feederStar"
-                onChange={this.feedbackDetail.bind(this)} /><br /><br />
+                onChange={this.feedbackDetail.bind(this)} required /><br /><br />
+              <p>Upload any memory together or just upload your Avatar (image)!</p><br />
+              <input type="file" id="feederImage" onChange={this.fileUpload.bind(this)} required /><br /><br />
               <TextField id="basic4" label="Message" multiline rows={5} columns={8} name="feederMessage"
-                onChange={this.feedbackDetail.bind(this)} /><br /><br />
+                onChange={this.feedbackDetail.bind(this)} required /><br /><br />
               <Button variant="contained" type="submit" size="medium" color="primary">Submit</Button>
             </form>
           </div>
@@ -170,7 +174,7 @@ class Feedback extends Component {
         {(this.state.openFeedbackForm === false) &&
           <div>
             {(this.state.feedback) &&
-              this.state.feedback.map(({ _id, Name, ProfilePic, Message, Star, date }) => (
+              this.state.feedback.map(({ _id, Name, ImageName, Message, Star, date }) => (
                 <Card className={classes.root} key={_id}>
                   <CardHeader
                     avatar={
@@ -181,9 +185,14 @@ class Feedback extends Component {
                     action={<Rating
                       name="customized-icons"
                       defaultValue={Star}
-                      style={{top:15}}
+                      style={{ top: 15 }}
                       IconContainerComponent={IconContainer}
                     />}
+                  />
+                  <CardMedia
+                    className={classes.media}
+                    image={'./feedback/' + ImageName}
+                    title="Thank Buddy"
                   />
                   <CardContent>
                     <Typography variant="body2" color="textSecondary" component="div" style={{ color: '#fff' }}>
