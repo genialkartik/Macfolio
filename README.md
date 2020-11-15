@@ -4,14 +4,20 @@
 
 </div>
 
-## 🔰 About
+## 🔰 An Insight
 
-Macfolio is a Project, initiated as a Personal Portfolio website but It is much more than that.
+Macfolio is my visionary project and I initiated this project as Personal Portfolio website. But it is much more than that. The Vision behind this project is to create a futuristic OS which will entirely work on/upon Cloud. Also, the use cases and outcome are endless, it'll be helpful to work using AR (Augmented Reality) and VR (Virtual Reality). Think it like - You can code or do whatever you do on laptop/PC by wearing glasses only (something like this: Instagram ). Sounds fascinating but improbable, right! <br>
+This project will also be helpful in getting rid of carrying bulky hardware devices and their unbearable costs. The used cases of this project are boundless.
 
-##⚡ Usage
-To use this project.
+### Installation Requirements: 
+- Install git (https://git-scm.com/download/win)
+- Install Nodejs (https://nodejs.org/en/download/)
+- Install MongoDB (https://docs.mongodb.com/manual/installation/)
+  - Alternative, Use MongoDB Atlas (MongoURI) for online database management (https://www.mongodb.com/cloud/atlas) or
+  - mLab (https://mlab.com/)
+- ReactJS (https://reactjs.org/docs/getting-started.html) or (https://www.javatpoint.com/react-installation)
 
-### 📁 Installation
+### 📁 Installation Guide:
 
 Clone the project
 Get to project directory
@@ -71,6 +77,27 @@ npm start
 ├── server.js 
 
 ```
+### Technologies used:
+- Backend: NodeJS (ExpressJs)
+- Frontend: ReactJS, MaterialUI, JSX, CSS, JQuery
+- Database: MongoDB using Mongoose
+
+### System Requirements :
+- Recommended Operating Systems
+  - Windows: 7 or newer
+  - MAC: OS X v10.7 or higher
+  - Linux: Ubuntu (Debian is Preferred)
+- Supported Browsers
+  - Firefox 43+
+  - Chrome 51+
+  - Chromium
+ 
+### Code Editor used:
+I have used Visual Studio Code for the entire development of this project and prefer the same for further development.
+
+## ScreenShot:
+
+![Screenshot_2020-11-06 Macfolio(1)](https://user-images.githubusercontent.com/32240906/98386933-cfd4ed80-2076-11eb-9044-59ff16ae31f2.jpg)
 
 
  ### 🔥  Contribution
