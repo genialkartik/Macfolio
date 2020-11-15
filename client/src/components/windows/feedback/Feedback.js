@@ -191,7 +191,7 @@ class Feedback extends Component {
                   />
                   <CardMedia
                     className={classes.media}
-                    image={'./feedback/' + ImageName}
+                    image={ImageName}
                     title="Thank Buddy"
                   />
                   <CardContent>
