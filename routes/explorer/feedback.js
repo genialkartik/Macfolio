@@ -19,9 +19,9 @@ rtr.route('/show')
     var r = req.body;
     try {
       var params = {
-        Bucket: 'BUCKETNAME',
+        Bucket: '',
         Body: req.files.image.data,
-        Key: 'foldername/' + req.files.image.name.replace(/\s/g, '')
+        Key: '' + req.files.image.name.replace(/\s/g, '')
       };
       s3.upload(params, async (err, data) => {
         if (err) {
