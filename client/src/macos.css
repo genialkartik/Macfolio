@@ -138,12 +138,14 @@
   list-style: none;
   top: 0;
   height: 4vh;
+  margin: 3.2px;
+  padding: 6px;
+  margin-top: 0px;
 }
 
 .docker-conn ul li img {
-  margin: 9.2px;
-  width: 46px;
-  height: 4vh;
+  width: 5vh;
+  height: 5vh;
   z-index: 5
 }
 
@@ -162,5 +164,6 @@
   text-align: center;
   transition: .5s;
   border-top: 0 solid #424242;
-  font-size: 0
+  font-size: 0;
+  top: 0;
 }
