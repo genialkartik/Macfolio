@@ -1,7 +1,6 @@
 <div align=center>
 
-[![Open Issues](https://img.shields.io/github/issues/genialkartik/Macfolio?style=for-the-badge&logo=github)](https://github.com/genialkartik/Macfolio/issues) [![Forks](https://img.shields.io/github/forks/genialkartik/Macfolio?style=for-the-badge&logo=github)](https://github.com/genialkartik/Macfolio/network/members) [![Stars](https://img.shields.io/github/stars/genialkartik/Macfolio?style=for-the-badge&logo=reverbnation)](https://github.com/code-monk08/connect-four/stargazers) ![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%99%A5-red?style=for-the-badge&logo=open-source-initiative) ![Built with Love](https://img.shields.io/badge/Built%20With-%E2%99%A5-critical?style=for-the-badge&logo=ko-fi)
-
+[![Open Issues](https://img.shields.io/github/issues/genialkartik/Macfolio?style=for-the-badge&logo=github)](https://github.com/genialkartik/Macfolio/issues) [![Forks](https://img.shields.io/github/forks/genialkartik/Macfolio?style=for-the-badge&logo=github)](https://github.com/genialkartik/Macfolio/network/members) [![Stars](https://img.shields.io/github/stars/genialkartik/Macfolio?style=for-the-badge&logo=reverbnation)](https://github.com/code-monk08/connect-four/stargazers) ![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%99%A5-red?style=for-the-badge&logo=open-source-initiative)
 </div>
 
 ## 🔰 An Insight
