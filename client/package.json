@@ -21,6 +21,7 @@
     "reactjs-pdf-reader": "^1.0.12",
     "uuid": "^8.2.0"
   },
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -32,7 +32,11 @@ $(document).ready(function () {
   }
   //   --> finish demo
   function rminitiatedemo() {
-    $(".doc-demo").css("font-size", "0em")
+    $(".doc-demo").css({ "font-size": "0em" })
+      .delay(1000).promise().done(removeHint);
+  }
+  function removeHint() {
+    $(".doc-demo").css({ "display": "none" })
   }
 })
 
@@ -267,7 +271,7 @@ class App extends Component {
       this.setState({ windowId: this.state.windowId + 1 })
       this.winPos(returnData);
     }
-    if(returnData.waction === 'openWindow') {
+    if (returnData.waction === 'openWindow') {
       this.openWindow(returnData.otherdata, returnData.wtype, returnData.wdata, returnData.wname)
     }
   }

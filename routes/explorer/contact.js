@@ -9,13 +9,13 @@ rtr.post('/contact', function (req, res) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: '',
-      pass: ''
+      user: 'krtyagikr',
+      pass: '9756@Kartik'
     }
   });
   var mailOptions = {
     from: req.body.cemail,
-    to: '',
+    to: 'kartik9756@gmail.com',
     subject: req.body.csubject,
     text: msg
   };
