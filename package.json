@@ -12,7 +12,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.4",
     "fs": "0.0.1-security",
-    "mongoose": "^5.9.20",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.16",
     "nodemon": "^2.0.6",
