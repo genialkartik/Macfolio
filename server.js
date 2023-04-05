@@ -58,4 +58,4 @@ if (process.env.ENV === "production") {
 
 app.use(morgan("tiny"));
 
-app.listen(port, () => console.log("Listening on Port: " + port));
+app.listen(port, () => console.log(`Listening on Port: ${port}`));
